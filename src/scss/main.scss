@@ -46,6 +46,7 @@ html {
   color: $white;
   z-index: 0;
   overflow-x: hidden;
+
 	@media (min-width: 768px) {
     border: 15px solid $white;
     width: 98%;
@@ -81,8 +82,8 @@ html {
     flex-grow: .2;
     display: flex;
     align-items: center;
-    width: min(100%, 600px);
     justify-content: center;
+    width: min(100%, 600px);
   }
   &__body {
     flex-grow: .6;
@@ -109,16 +110,13 @@ html {
   border-radius: 1rem;
   border: 6px solid #FFFFFF;
   padding: 3rem 2rem;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: $shadow-small;
   margin-bottom: 3rem;
   position: relative;
   display: flex;
   justify-content: center;
     @media (min-width: 481px) {
       margin-bottom: 3.5rem;
-    }
-    @media (min-width: 500px) {
-       background: green;
     }
     @media (min-width: 1200px) {
       padding: 2rem;
@@ -173,6 +171,7 @@ html {
   border-radius: 1rem 1rem 0 0;
   padding: 1rem 1rem .5rem 1rem;
   position: relative;
+
   &__images {
     position: absolute;
     bottom: 1.5rem;
