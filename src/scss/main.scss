@@ -1,14 +1,10 @@
 @import "~normalize.css";
-//@import "../assets/img/bananya-subtitle.svg";
 @import "_variables";
 @import "modules/hello.scss";
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Hachi+Maru+Pop&family=Hi+Melody&display=swap');
 
 html {
   box-sizing: border-box;
-}
-
-html {
   font-size: 100%;
   @media (min-width: 481px) {
     font-size: 120%
@@ -32,16 +28,13 @@ html {
   box-sizing: inherit;
 }
 
-body {
-}
-
 .application {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   min-height: 100vh;
-  height:100vh;
   background: $light-blue;
   background-image: url('../assets/img/right-paws-small.svg');
   background-repeat: no-repeat;
@@ -51,11 +44,9 @@ body {
   border: 10px solid $white;
   font-family: 'Gochi Hand', cursive;
   color: $white;
-  position: relative;
   z-index: 0;
   overflow-x: hidden;
 	@media (min-width: 768px) {
-
     border: 15px solid $white;
     width: 98%;
     margin: 0 auto;
@@ -70,7 +61,7 @@ body {
 	}
   &::before {
     content: "";
-    background-image: url('../assets/img/left-paws.svg');
+    background-image: url('../assets/img/left-paws-small.svg');
     background-repeat: no-repeat;
     background-position: left top;
     background-size: auto 90%;
@@ -90,9 +81,11 @@ body {
     flex-grow: .2;
     display: flex;
     align-items: center;
+    width: min(100%, 600px);
+    justify-content: center;
   }
   &__body {
-    flex-grow: .4;
+    flex-grow: .6;
   }
 }
 
@@ -100,63 +93,61 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
   &__logo {
-    max-width: 100%;
+    width: 75%;
   }
   &__subtitle {
-    max-width: 95%;
     margin-bottom: 1rem;
+    width: 90%;
   }
 }
 
 .settings {
-  width: max(200px, 50%);
-  background: $light-pink;
+  width: max(200px, 60%);
+  background: #FFDDE9;
   border-radius: 1rem;
-  border: 6px solid $white;
-  padding: 2rem;
-  box-shadow: $shadow-small;
-  margin-bottom: 3.5rem;
+  border: 6px solid #FFFFFF;
+  padding: 3rem 2rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 3rem;
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+    @media (min-width: 481px) {
+      margin-bottom: 3.5rem;
+    }
+    @media (min-width: 500px) {
+       background: green;
+    }
+    @media (min-width: 1200px) {
+      padding: 2rem;
+    }
   &__header {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    top: -2.4rem;
-    right: 0;
+    top: -2rem;
+    right: -3rem;
     position: absolute;
-  }
-  &__bubble-speech {
-    grid-column: 1/2;
-    grid-row: 1/2;
-    width: 100%;
-    
+    width: clamp(215px, 100%, 340px);
   }
   &__title {
-    font-family: 'Hachi Maru Pop', cursive;
+    font-family: "Hachi Maru Pop", cursive;
     font-size: 0.8rem;
-    grid-column: 1/2;
-    grid-row: 1/2;
-    padding-bottom: 1rem;
-    line-height: 1.5;
     text-align: center;
-    max-width: 90%;
-    justify-self: center;
-    align-self: center;
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 60%;
+    height: 26%;
+    margin-top: 10%;
   }
   &__bananya {
-    position: absolute;
-    top: 2rem;
-    left: 14rem;
+    width: 100%;
   }
   &__body {
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
-    height: 100%;
+    width: clamp(150px, 70%, 300px);
   }
   &__button {
     color: $brown;
@@ -169,6 +160,8 @@ body {
     margin-bottom: 1.5rem;
     box-shadow: $shadow-small;
     text-shadow: $text-shadow-small;
+    flex-grow: 0.2;
+
     &--last {
       margin: 0;
     }
@@ -181,22 +174,17 @@ body {
   padding: 1rem 1rem .5rem 1rem;
   position: relative;
   &__images {
-    display: flex;
-    align-items: baseline;
     position: absolute;
-    bottom: 2rem;
+    bottom: 1.5rem;
     left: 0rem;
-    justify-content: space-between;
     width: 100%;
   }
   
-  &__bananya, &__mouse {
-    @media (min-width: 481px) {
-      flex-grow: .6;
-    }
-    @media (min-width: 769px) {
-      flex-grow: .6;
-    }
+  &__bananya {
+    width: clamp(110px,50%, 150px);
+  }
+  &__mouse {
+    width: 40%;
   }
 
   &__author-container {
