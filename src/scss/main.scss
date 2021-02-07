@@ -87,6 +87,7 @@ html {
   }
   &__body {
     flex-grow: .6;
+    height: clamp(300px, 50vh, 430px)
   }
 }
 
@@ -134,8 +135,8 @@ html {
     text-align: center;
     position: absolute;
     top: 0;
-    left: 10px;
-    width: 60%;
+    left: 18px;
+    width: 55%;
     height: 26%;
     margin-top: 10%;
   }

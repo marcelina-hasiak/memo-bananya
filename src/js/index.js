@@ -1,5 +1,6 @@
 import '../scss/main.scss';
 import LevelView from './LevelView'
+import PlayersNumberView from './PlayersNumberView'
 
 import BoardFactory from './BoardFactory'
 
@@ -12,8 +13,9 @@ import BoardFactory from './BoardFactory'
 const levelView = new LevelView('.settings--js', '.settings__title--js')
 const boardFactory = new BoardFactory()
 
+
 levelView.subscribe((level) => {
   boardFactory.getBoard(level)
-  //przekazujemy jakiś callback, 
-  //który uruchomi kolejny widok + stworzy odpowiednią tablicę
+  const playersNumberView = new PlayersNumberView('.settings--js', '.settings__title--js')
+  //który uruchomi kolejny widok 
 })

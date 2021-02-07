@@ -11,7 +11,7 @@ class LevelView {
 
   createRoot() {
     const root = document.createElement('div')
-    root.classList.add('settings__body')
+    root.classList.add('settings__body', 'settings__body--js')
     return root
   }
 
