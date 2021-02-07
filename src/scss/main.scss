@@ -126,6 +126,7 @@ html {
     right: -3rem;
     position: absolute;
     width: clamp(215px, 100%, 340px);
+    pointer-events: none;
   }
   &__title {
     font-family: "Hachi Maru Pop", cursive;
@@ -177,10 +178,11 @@ html {
     bottom: 1.5rem;
     left: 0rem;
     width: 100%;
+    pointer-events: none;
   }
   
   &__bananya {
-    width: clamp(110px,50%, 150px);
+    width: clamp(100px,50%, 150px);
   }
   &__mouse {
     width: 40%;

@@ -18,6 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/preset-env": "^7.10.1",
     "autoprefixer": "^9.8.0",
     "babel-loader": "^8.1.0",
@@ -44,6 +45,7 @@
     "websocket-extensions": "^0.1.4"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "uuid": "^8.3.2"
   }
 }
