@@ -1,8 +1,5 @@
 import '../scss/main.scss';
-import LevelView from './LevelView'
-import PlayersNumberView from './PlayersNumberView'
-
-import BoardFactory from './BoardFactory'
+import GameController from './GameController'
 
 // uncomment the lines below to enable PWA
 // import {registerSW} from './pwa.js';
@@ -10,12 +7,7 @@ import BoardFactory from './BoardFactory'
 
 /* place your code below */
 
-const levelView = new LevelView('.settings--js', '.settings__title--js')
-const boardFactory = new BoardFactory()
+const gameController = new GameController()
 
 
-levelView.subscribe((level) => {
-  boardFactory.getBoard(level)
-  const playersNumberView = new PlayersNumberView('.settings--js', '.settings__title--js')
-  //który uruchomi kolejny widok 
-})
+

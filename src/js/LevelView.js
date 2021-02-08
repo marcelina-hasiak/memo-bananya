@@ -16,20 +16,20 @@ class LevelView {
   }
 
   createButtons(root) {
-    root.appendChild(this.createButton('EASY', 'easy'))
-    root.appendChild(this.createButton('MEDIUM', 'medium'))
-    root.appendChild(this.createButton('HARD', 'hard', true))
+    root.append(this.createButton('EASY', 'easy'))
+    root.append(this.createButton('MEDIUM', 'medium'))
+    root.append(this.createButton('HARD', 'hard', true))
   }
 
   attachToContainer(container, root) {
-    document.querySelector(container).appendChild(root)
+    document.querySelector(container).append(root)
   }
 
   createButton(name, selector, isLastChild) {
     const btn = document.createElement('button');
     btn.setAttribute('data-level', selector);
     btn.textContent = name;
-    btn.classList.add('settings__button')
+    btn.classList.add('settings__button', 'settings__button--js')
     if(isLastChild) {
       btn.classList.add('settings__button--last')
     }
