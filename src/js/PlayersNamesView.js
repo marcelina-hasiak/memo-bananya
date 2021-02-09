@@ -28,6 +28,12 @@ class PlayersNamesView {
       form.appendChild(this.createInput(`PLAYER ${i + 1} NAME`));
     }
     form.append(this.createFormButton())
+    form.addEventListener('submit', (event) => {
+      event.preventDefault()
+      const inputsValues = Array.from(form.querySelectorAll('input')).map(i => i.value)
+      console.log(inputsValues)
+      this.subscribers.forEach(subscribe => subscribe(inputsValues))
+    })
     root.prepend(form);
   }
 
@@ -44,9 +50,7 @@ class PlayersNamesView {
 
     label.appendChild(input);
     p.appendChild(label);
-    // btn.addEventListener('click', (event) => {
-    //   this.subscribers.forEach(subscribe => subscribe(selector))
-    // })
+
     return p;
   }
 
@@ -54,10 +58,6 @@ class PlayersNamesView {
     const btn = document.createElement('button');
     btn.textContent = "READY!"
     btn.classList.add('btn-go')
-    const btnImage = document.createElement('img');
-    btnImage.classList.add('full-size');
-    //btnImage.setAttribute('src', './src/assets/img/btn-go.svg');
-    btn.appendChild(btnImage)
     return btn
   }
 

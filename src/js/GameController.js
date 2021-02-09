@@ -9,11 +9,15 @@ class GameController {
   }
   getCurrentBoard(level) {
     const boardFactory = new BoardFactory()
-    this.currentBoard = boardFactory.getBoard(level)
+    this.board = boardFactory.getBoard(level)
   }
   getPlayersController(playersNumber) {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
     this.playerController = new PlayersController(playersNumberParsed)
+  }
+
+  setPlayersNames(names) {
+    this.playerController.setPlayersNames(names)
   }
 
   getLevelView() {
@@ -25,7 +29,7 @@ class GameController {
   }
   getPlayersNumberView() {
     const playersNumberView = this.views.getPlayersNumberView()
-    playersNumberView.subscribe((playersNumber) => {
+    playersNumberView.subscribe(playersNumber => {
       this.getPlayersController(playersNumber) // return new PlayerController
       this.getPlayersNameView(playersNumber) 
     })
@@ -33,6 +37,14 @@ class GameController {
   getPlayersNameView(playersNumber) {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
     const playersNamesView = this.views.getPlayersNamesView(playersNumberParsed)
+    playersNamesView.subscribe(names => {
+      this.playerController.setPlayersNames(names)
+      this.board.renderBoard()
+    })
+  }
+
+  getBoardView() {
+    this.board.renderBoard()
   }
 
   //utilities

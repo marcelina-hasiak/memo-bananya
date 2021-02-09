@@ -5,9 +5,9 @@
 
 html {
   box-sizing: border-box;
-  font-size: 100%;
+  font-size: 90%;
   @media (min-width: 481px) {
-    font-size: 120%
+    font-size: 110%
   }
   @media (min-width: 769px) {
     font-size: 130%
@@ -31,7 +31,7 @@ html {
 .application {
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   position: relative;
   min-height: 100vh;
@@ -86,7 +86,6 @@ html {
     margin: 2rem 0 1rem 0;;
   }
   &__body {
-    flex-grow: 1;
   }
 }
 
@@ -94,7 +93,6 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
   margin: 0;
   &__logo {
     width: 75%;
@@ -106,20 +104,19 @@ html {
 }
 
 .settings {
-    width: max(200px, 50%);
+    width: max(200px, 60%);
     background: #FFDDE9;
     border-radius: 1rem;
     border: 6px solid #FFFFFF;
     padding: 3rem 1.5rem;
     box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
-    margin-bottom: 3rem;
+    margin-bottom: 6rem;
     position: relative;
     display: flex;
     justify-content: center;
-    max-height: 600px;
-    min-height: 300px;
+    height: clamp(300px, 50vh, 600px);
     @media (min-width: 481px) {
-      margin-bottom: 3.5rem;
+      margin-bottom: 7rem;
     }
     @media (min-width: 1200px) {
       padding: 2rem;
@@ -150,7 +147,7 @@ html {
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
-    width: clamp(156px, 60%, 700px);
+    width: clamp(156px, 70%, 500px);
   }
   &__button {
     color: $brown;
@@ -188,6 +185,7 @@ html {
     border-radius: 10px;
     align-items: center;
     flex-grow: .2;
+    font-size: 1.2rem;
   }
   &__input {
     width: 100%;
@@ -196,7 +194,8 @@ html {
     border-bottom: 1px solid $brown;
     background: none;
     text-align: center;
-    color: inherit
+    color: inherit;
+    font-size: 1rem;
   }
 }
 
@@ -204,7 +203,8 @@ html {
   background: $white;
   border-radius: 1rem 1rem 0 0;
   padding: 1rem 1rem .5rem 1rem;
-  position: relative;
+  position: absolute;
+  bottom: 0;
 
   &__images {
     position: absolute;
@@ -245,19 +245,18 @@ html {
   border: none;
   background: url('../assets/img/btn-go.svg');
   color: $brown;
-  padding: 1rem;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
   background-position: center;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .btn-back {
   background: none;
   border: none;
   position: absolute;
-  bottom: 1%;
-  right: 2%;
+  bottom: .8rem;
+  right: .8rem;
   width: clamp(40px, 10%, 60px);
-}
-.full-size {
-  width: 100%;
+  display: flex;
 }
