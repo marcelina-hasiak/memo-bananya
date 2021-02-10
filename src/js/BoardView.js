@@ -44,11 +44,6 @@ class BoardView {
     const tileFront = document.createElement('div')
     tileFront.classList.add('board__tile', 'board__tile--front')
     tileFront.style.backgroundImage = `url(${srcImage})`
-    // const tileImageFront = document.createElement('img')
-    // tileImageFront.classList.add('full-size')
-    // tileImageFront.setAttribute('src', `${srcImage}`)
-
-    // tileFront.append(tileImageFront)    
 
     tile.append(tileBack)
     tile.append(tileFront)

@@ -38,14 +38,21 @@ class GameController {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
     const playersNamesView = this.views.getPlayersNamesView(playersNumberParsed)
     playersNamesView.subscribe(names => {
-      this.playerController.setPlayersNames(names)
-      this.playerController.renderPlayers()
-      this.board.renderBoard()
+      this.setPlayersNames(names)
+      this.getPlayersControllerView()
+      this.getBoardView()
     })
+  }
+
+  setPlayersNames(names) {
+    this.playerController.setPlayersNames(names)
   }
 
   getBoardView() {
     this.board.renderBoard()
+  }
+  getPlayersControllerView() {
+    this.playerController.renderPlayers()
   }
 
   //utilities

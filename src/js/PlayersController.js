@@ -3,12 +3,11 @@ import PlayersView from './PlayersView'
 
 class PlayersController {
   constructor(playersNumber) {
-    this.playersNumber = playersNumber;
-    this.getPlayers()
+    this.getPlayers(playersNumber)
   }
-  getPlayers() {
+  getPlayers(playersNumber) {
     this.players = []
-    for (let i = 0; i < this.playersNumber; i++) {
+    for (let i = 0; i < playersNumber; i++) {
       this.players.push(new Player())
     }
   }
@@ -16,7 +15,7 @@ class PlayersController {
     this.players.forEach((player, index) => player.setName(names[index]))
   }
   renderPlayers() {
-    this.playersView = new PlayersView('.application')
+    this.playersView = new PlayersView('.application', this.players)
   }
 }
 
