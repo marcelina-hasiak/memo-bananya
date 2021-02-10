@@ -37,7 +37,7 @@ class PlayersNumberView {
 
   createEscapeButton() {
     const btn = document.createElement('button');
-    btn.classList.add('btn-back')
+    btn.classList.add('btn-back', 'settings__button-back')
     const btnImage = document.createElement('img');
     btnImage.classList.add('full-size');
     btnImage.setAttribute('src', './src/assets/img/btn-back.svg');

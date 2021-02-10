@@ -6,7 +6,7 @@ class Views {
   constructor() {
   }
   getLevelView() {
-    return new LevelView('.settings--js', '.settings__title--js')
+    return new LevelView('.application__body--js', '.settings__title--js')
   }
   getPlayersNumberView() {
     return new PlayersNumberView('.settings__title--js')

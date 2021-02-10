@@ -1,4 +1,5 @@
 import Player from './Player'
+import PlayersView from './PlayersView'
 
 class PlayersController {
   constructor(playersNumber) {
@@ -13,6 +14,9 @@ class PlayersController {
   }
   setPlayersNames(names) {
     this.players.forEach((player, index) => player.setName(names[index]))
+  }
+  renderPlayers() {
+    this.playersView = new PlayersView('.application')
   }
 }
 

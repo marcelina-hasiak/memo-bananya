@@ -9,8 +9,6 @@ class PlayersNamesView {
     this.changeTitle(titleContainer);
     this.subscribers = [];
   }
-
-
   getRoot() {
     const root = document.querySelector(".settings__body--js");
     if (root) {
@@ -31,7 +29,6 @@ class PlayersNamesView {
     form.addEventListener('submit', (event) => {
       event.preventDefault()
       const inputsValues = Array.from(form.querySelectorAll('input')).map(i => i.value)
-      console.log(inputsValues)
       this.subscribers.forEach(subscribe => subscribe(inputsValues))
     })
     root.prepend(form);
@@ -56,7 +53,7 @@ class PlayersNamesView {
 
   createFormButton() {
     const btn = document.createElement('button');
-    btn.textContent = "READY!"
+    btn.textContent = "PLAY!"
     btn.classList.add('btn-go')
     return btn
   }

@@ -5,7 +5,7 @@ class Board {
     this.board = board
   }
   renderBoard() {
-    this.boardView = new BoardView()
+    this.boardView = new BoardView('.application', this.board)
   }
 }
 

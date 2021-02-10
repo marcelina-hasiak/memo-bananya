@@ -30,7 +30,7 @@ class GameController {
   getPlayersNumberView() {
     const playersNumberView = this.views.getPlayersNumberView()
     playersNumberView.subscribe(playersNumber => {
-      this.getPlayersController(playersNumber) // return new PlayerController
+      this.getPlayersController(playersNumber)
       this.getPlayersNameView(playersNumber) 
     })
   }
@@ -39,6 +39,7 @@ class GameController {
     const playersNamesView = this.views.getPlayersNamesView(playersNumberParsed)
     playersNamesView.subscribe(names => {
       this.playerController.setPlayersNames(names)
+      this.playerController.renderPlayers()
       this.board.renderBoard()
     })
   }

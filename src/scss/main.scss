@@ -31,7 +31,7 @@ html {
 .application {
   display: flex;
   flex-flow: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   position: relative;
   min-height: 100vh;
@@ -110,13 +110,14 @@ html {
     border: 6px solid #FFFFFF;
     padding: 3rem 1.5rem;
     box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
-    margin-bottom: 6rem;
+    margin-bottom: 3rem;
     position: relative;
     display: flex;
     justify-content: center;
-    height: clamp(300px, 50vh, 600px);
+    flex:1;
+
     @media (min-width: 481px) {
-      margin-bottom: 7rem;
+      margin-bottom: 4rem;
     }
     @media (min-width: 1200px) {
       padding: 2rem;
@@ -166,6 +167,11 @@ html {
       margin-bottom: 0
     }
   }
+  &__button-back {
+    position: absolute;
+    bottom: .8rem;
+    right: .8rem;
+  }
 }
 
 .settings-form {
@@ -175,6 +181,7 @@ html {
   justify-content: space-evenly;
   color: $brown;
   flex: 1;
+  
 
   &__field {
     display: flex;
@@ -186,6 +193,9 @@ html {
     align-items: center;
     flex-grow: .2;
     font-size: 1.2rem;
+    text-shadow: $text-shadow-small;
+    font-size: 1rem;
+    font-family: "Hachi Maru Pop", cursive;
   }
   &__input {
     width: 100%;
@@ -203,8 +213,7 @@ html {
   background: $white;
   border-radius: 1rem 1rem 0 0;
   padding: 1rem 1rem .5rem 1rem;
-  position: absolute;
-  bottom: 0;
+  position: relative;
 
   &__images {
     position: absolute;
@@ -218,7 +227,7 @@ html {
   }
   
   &__bananya {
-    width: clamp(100px, 40%, 150px);
+    width: clamp(100px, 50%, 150px);
   }
   &__mouse {
     width: 40%;
@@ -245,18 +254,119 @@ html {
   border: none;
   background: url('../assets/img/btn-go.svg');
   color: $brown;
-  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  padding: 1rem 2rem 2rem 2rem;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
 }
 
-.btn-back {
+.btn-back, .btn-refresh {
   background: none;
   border: none;
-  position: absolute;
-  bottom: .8rem;
-  right: .8rem;
   width: clamp(40px, 10%, 60px);
   display: flex;
 }
+
+.full-size {
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+.rotated {
+  transform: rotateY( 180deg );
+}
+.board {
+  display: grid;
+  grid-row-gap: 0.5rem;
+  grid-column-gap: 0.5rem;
+  padding: 1rem 0;
+  grid-template-columns: repeat(5, minmax(30px, 1fr));
+  flex: 1;
+  width: clamp(200px, 90%, 900px);
+  grid-auto-rows: minmax(40px, auto);
+  @media (min-width: 481px) {
+    grid-auto-rows: minmax(70px, 1fr);
+  }
+
+  &__tile-container {
+    width: 100%;
+    align-self: center;
+    height: 100%;
+    max-height: 100px;
+    max-width: 140px;
+    justify-self: center;
+    //height: clamp(30px, 100%, 120px);
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    @media (min-width: 481px) {
+      max-height: 120px;;
+    }
+  }
+  &__tile {
+    background: $light-pink;
+    border: 3px solid white;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    // position: absolute;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+    &--front {
+      transform: rotateY( 180deg );
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: top;
+      position: absolute;
+      top:0;
+      left:0;
+    }
+    &--back {
+      background-image: url('../assets/img/paw.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      top:0;
+      left:0;
+    }
+  }
+}
+
+.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.player-panel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 .5rem;
+  &__stats-wrapper {
+    background: $white;
+    border-radius: 10px;
+    box-shadow: $shadow-small;
+    color: $brown;
+    margin: 0 .5rem;
+    padding: 1rem;
+    text-align: center;
+    text-shadow: $text-shadow-small;
+  }
+  &__active-player {
+    line-height: .8;
+    margin-bottom: .5rem;
+  }
+  &__stats {
+
+  }
+}
+
