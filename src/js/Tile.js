@@ -16,6 +16,9 @@ class Tile {
   get dataSet() {
     return this.#data
   }
+  get tileId() {
+    return this.#id
+  }
 };
 
 export default Tile;

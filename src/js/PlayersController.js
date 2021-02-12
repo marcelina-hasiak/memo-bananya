@@ -4,6 +4,7 @@ import PlayersView from './PlayersView'
 class PlayersController {
   constructor(playersNumber) {
     this.getPlayers(playersNumber)
+    this.subscribers = [] 
   }
   getPlayers(playersNumber) {
     this.players = []
@@ -16,6 +17,16 @@ class PlayersController {
   }
   renderPlayers() {
     this.playersView = new PlayersView('.application', this.players)
+    this.playersView.subscribeToPreviousView(() => {
+      this.func()
+    })
+  }
+  func() {
+    console.log('plcontrol', this.subscribers)
+    this.subscribers.forEach(subscribe => subscribe())
+  }
+  subscribe(subscriber) {
+    this.subscribers.push(subscriber)
   }
 }
 

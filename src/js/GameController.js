@@ -14,14 +14,18 @@ class GameController {
   getPlayersController(playersNumber) {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
     this.playerController = new PlayersController(playersNumberParsed)
+    this.playerController.subscribe(() => {
+      this.getLevelView(false)
+    })
   }
 
   setPlayersNames(names) {
     this.playerController.setPlayersNames(names)
   }
 
-  getLevelView() {
-    const levelView = this.views.getLevelView()
+  getLevelView(firstGame = true) {
+    
+    const levelView = this.views.getLevelView(firstGame)
     levelView.subscribe((level) => {
       this.getCurrentBoard(level)
       this.getPlayersNumberView() 
@@ -53,6 +57,7 @@ class GameController {
   }
   getPlayersControllerView() {
     this.playerController.renderPlayers()
+    //pass the handler
   }
 
   //utilities

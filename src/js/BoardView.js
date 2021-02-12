@@ -16,7 +16,7 @@ class BoardView {
 
   createRoot() {
     const root = document.createElement('section')
-    root.classList.add('board')
+    root.classList.add('board', 'board--js')
     return root
   }
 

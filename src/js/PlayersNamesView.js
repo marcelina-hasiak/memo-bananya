@@ -4,19 +4,25 @@ class PlayersNamesView {
 
   constructor(titleContainer, playersNumber) {
     this.playersNumber = playersNumber;
+    this.render(titleContainer)
+    this.subscribers = [];
+    this.subscribersToPreviousView = []
+  }
+
+  render(titleContainer) {
+    
     const root = this.getRoot();
     this.createForm(root);
+    this.handleEscapeButton()
     this.changeTitle(titleContainer);
-    this.subscribers = [];
   }
   getRoot() {
-    const root = document.querySelector(".settings__body--js");
-    if (root) {
-      root
-        .querySelectorAll(".settings__button--js")
-        .forEach((child) => child.remove());
-      return root;
+    const root = document.querySelector('.settings__body--js')
+    for(let i = root.children.length; i > 0; i--) {
+      if (i === root.children.length) {continue}
+      root.children[i-1].remove()
     }
+    return root
   }
 
   createForm(root) {
@@ -28,7 +34,12 @@ class PlayersNamesView {
     form.append(this.createFormButton())
     form.addEventListener('submit', (event) => {
       event.preventDefault()
-      const inputsValues = Array.from(form.querySelectorAll('input')).map(i => i.value)
+      const inputsValues = Array.from(form.querySelectorAll('input')).map((i,index) => {
+        if (i.value === '') {
+          return `Player ${index + 1}`
+        }
+        return i.value
+      })
       this.subscribers.forEach(subscribe => subscribe(inputsValues))
     })
     root.prepend(form);
@@ -58,6 +69,13 @@ class PlayersNamesView {
     return btn
   }
 
+  handleEscapeButton() {
+    const btn = document.querySelector('.btn-back--js')
+    btn.addEventListener('click', () => {
+      this.subscribersToPreviousView.forEach(subscribe => subscribe())
+    })
+  }
+
   changeTitle(container) {
     const heading = document.querySelector(container)
     heading.textContent =
@@ -68,6 +86,10 @@ class PlayersNamesView {
 
   subscribe(subscriber) {
     this.subscribers.push(subscriber);
+  }
+
+  subscribeToPreviousView(subscriber) {
+    this.subscribersToPreviousView.push(subscriber)
   }
 }
 

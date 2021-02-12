@@ -2,22 +2,27 @@ class PlayersView {
   constructor(playerPanelContainer, playersData) {
     const root = this.createRoot(playersData)
     this.attachToContainer(playerPanelContainer, root)
+    this.subscribers = []
+    this.subscribersToPreviousView = []
   }
   createRoot(playersData) {
     const root = document.createElement('section')
-    root.classList.add('player-panel')
-    root.append(this.createButton('btn-back'))
-    //wynik funkcji getVieportWidth przypisać do zmiennej, by nie liczyć ponownie
+    root.classList.add('player-panel', 'player-panel--js')
+    this.createPlayerPanelController(root, playersData)
+    return root
+  }
+
+  createPlayerPanelController(root, playersData) {
+    root.append(this.createEscapeButton())
     for (let i = 0; i < playersData.length; i++) {
       root.append(this.createPlayerStats(playersData[i]))
       if (!(this.getViewportWidth() > 768)) {
         break
       }
     }
-    root.append(this.createButton('btn-refresh'))
-
-    return root
+    root.append(this.createRefreshBoardButton())
   }
+
   attachToContainer(container, root) {
     document.querySelector(container).prepend(root)
   }
@@ -45,18 +50,39 @@ class PlayersView {
     return playerStatsWrapper
   }
 
-  createButton(buttonType) {
+  createEscapeButton() {
     const btn = document.createElement('button');
-    btn.classList.add(buttonType)
-
+    btn.classList.add('btn-back')
+    btn.addEventListener('click', () => {
+      console.log(this.subscribeToPreviousView, 'plview')
+      this.subscribersToPreviousView.forEach(subscribe => subscribe())
+    })
     const btnImage = document.createElement('img');
     btnImage.classList.add('full-size');
-    btnImage.setAttribute('src', `./src/assets/img/${buttonType}.svg`);
+    btnImage.setAttribute('src', `./src/assets/img/btn-back.svg`);
 
     btn.appendChild(btnImage)
     return btn
   }
+  createRefreshBoardButton() {
+    const btn = document.createElement('button');
+    btn.classList.add('btn-refresh')
+    btn.addEventListener('click', () => {
+      this.subscribers.forEach(subscribe => subscribe())
+    })
+    const btnImage = document.createElement('img');
+    btnImage.classList.add('full-size');
+    btnImage.setAttribute('src', `./src/assets/img/btn-refresh.svg`);
 
+    btn.appendChild(btnImage)
+    return btn
+  }
+  subscribe(subscriber) {
+    this.subscribers.push(subscriber)
+  }
+  subscribeToPreviousView(subscriber) {
+    this.subscribersToPreviousView.push(subscriber)
+  }
   //utilities
   getViewportWidth() {
     return window.innerWidth
