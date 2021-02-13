@@ -2,8 +2,8 @@ class PlayersView {
   constructor(playerPanelContainer, playersData) {
     const root = this.createRoot(playersData)
     this.attachToContainer(playerPanelContainer, root)
-    this.subscribers = []
-    this.subscribersToPreviousView = []
+    this.subscribersToRefreshBoardEvent = []
+    this.subscribersToEscapeButtonEvent = []
   }
   createRoot(playersData) {
     const root = document.createElement('section')
@@ -54,8 +54,7 @@ class PlayersView {
     const btn = document.createElement('button');
     btn.classList.add('btn-back')
     btn.addEventListener('click', () => {
-      console.log(this.subscribeToPreviousView, 'plview')
-      this.subscribersToPreviousView.forEach(subscribe => subscribe())
+      this.subscribersToEscapeButtonEvent.forEach(subscribe => subscribe())
     })
     const btnImage = document.createElement('img');
     btnImage.classList.add('full-size');
@@ -68,7 +67,7 @@ class PlayersView {
     const btn = document.createElement('button');
     btn.classList.add('btn-refresh')
     btn.addEventListener('click', () => {
-      this.subscribers.forEach(subscribe => subscribe())
+      this.subscribersToRefreshBoardEvent.forEach(subscribe => subscribe())
     })
     const btnImage = document.createElement('img');
     btnImage.classList.add('full-size');
@@ -77,11 +76,11 @@ class PlayersView {
     btn.appendChild(btnImage)
     return btn
   }
-  subscribe(subscriber) {
-    this.subscribers.push(subscriber)
+  subscribeToRefreshBoardEvent(subscriber) {
+    this.subscribersToRefreshBoardEvent.push(subscriber)
   }
-  subscribeToPreviousView(subscriber) {
-    this.subscribersToPreviousView.push(subscriber)
+  subscribeToEscapeButtonEvent(subscriber) {
+    this.subscribersToEscapeButtonEvent.push(subscriber)
   }
   //utilities
   getViewportWidth() {

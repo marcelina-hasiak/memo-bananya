@@ -17,7 +17,6 @@ class LevelView {
   }
 
   prepareTheLevelViewContainer() {
-    console.log('removal')
     const appHeader = document.querySelector('.application__header--js')
     const appBody = document.querySelector('.application__body--js')
     const footerImages = document.querySelector('.footer__images--js')

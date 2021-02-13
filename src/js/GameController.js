@@ -7,15 +7,20 @@ class GameController {
     this.views = new Views()
     this.getLevelView()
   }
+  
   getCurrentBoard(level) {
     const boardFactory = new BoardFactory()
     this.board = boardFactory.getBoard(level)
   }
+
   getPlayersController(playersNumber) {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
     this.playerController = new PlayersController(playersNumberParsed)
-    this.playerController.subscribe(() => {
+    this.playerController.subscribeToEscapeButtonEvent(() => {
       this.getLevelView(false)
+    })
+    this.playerController.subscribeToRefreshBoardEvent(() => {
+      this.board.renderBoard()
     })
   }
 
@@ -24,13 +29,13 @@ class GameController {
   }
 
   getLevelView(firstGame = true) {
-    
     const levelView = this.views.getLevelView(firstGame)
     levelView.subscribe((level) => {
       this.getCurrentBoard(level)
       this.getPlayersNumberView() 
     })
   }
+
   getPlayersNumberView() {
     const playersNumberView = this.views.getPlayersNumberView()
     playersNumberView.subscribe(playersNumber => {
@@ -38,6 +43,7 @@ class GameController {
       this.getPlayersNameView(playersNumber) 
     })
   }
+
   getPlayersNameView(playersNumber) {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
     const playersNamesView = this.views.getPlayersNamesView(playersNumberParsed)

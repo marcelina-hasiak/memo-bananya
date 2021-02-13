@@ -10,8 +10,12 @@ class BoardView {
     const appHeader = document.querySelector('.application__header--js')
     const appBody = document.querySelector('.application__body--js')
     const footerImages = document.querySelector('.footer__images--js')
+    const board = document.querySelector('.board--js')
     const nodesToHide = [appHeader, appBody, footerImages]
     nodesToHide.forEach(node => node.classList.add('hide'))
+    if (board) {
+      board.remove()
+    }
   }
 
   createRoot() {

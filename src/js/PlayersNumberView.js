@@ -4,7 +4,7 @@ class PlayersNumberView {
   constructor(titleContainer) {
     this.render(titleContainer)
     this.subscribers = []
-    this.subscribersToPreviousView = []
+    this.subscribersToEscapeButtonEvents = []
   }
 
   render(titleContainer) {
@@ -27,7 +27,7 @@ class PlayersNumberView {
     if(root.querySelector('btn-back--js')) {
       this.handleEscapeButton()
     } else {
-      root.append(this.createGoBackButton())
+      root.append(this.createEscapeButton())
     }
 
   }
@@ -46,7 +46,7 @@ class PlayersNumberView {
     return btn
   }
 
-  createGoBackButton() {
+  createEscapeButton() {
     const btn = document.createElement('button');
     btn.classList.add('btn-back', 'settings__button-back', 'btn-back--js')
 
@@ -56,7 +56,7 @@ class PlayersNumberView {
 
     btn.appendChild(btnImage)
     btn.addEventListener('click', () => {
-      this.subscribersToPreviousView.forEach(subscribe => subscribe())
+      this.subscribersToEscapeButtonEvents.forEach(subscribe => subscribe())
     })
 
     return btn
@@ -72,12 +72,12 @@ class PlayersNumberView {
   handleEscapeButton() {
     const btn = document.querySelector('.btn-back--js')
     btn.addEventListener('click', () => {
-      this.subscribersToPreviousView.forEach(subscribe => subscribe())
+      this.subscribersToEscapeButtonEvents.forEach(subscribe => subscribe())
     })
   }
 
-  subscribeToPreviousView(subscriber) {
-    this.subscribersToPreviousView.push(subscriber)
+  subscribeToEscapeButtonEvent(subscriber) {
+    this.subscribersToEscapeButtonEvents.push(subscriber)
   }
 }
 

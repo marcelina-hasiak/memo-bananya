@@ -6,7 +6,7 @@ class PlayersNamesView {
     this.playersNumber = playersNumber;
     this.render(titleContainer)
     this.subscribers = [];
-    this.subscribersToPreviousView = []
+    this.subscribersToEscapeButtonEvent = []
   }
 
   render(titleContainer) {
@@ -72,7 +72,7 @@ class PlayersNamesView {
   handleEscapeButton() {
     const btn = document.querySelector('.btn-back--js')
     btn.addEventListener('click', () => {
-      this.subscribersToPreviousView.forEach(subscribe => subscribe())
+      this.subscribersToEscapeButtonEvent.forEach(subscribe => subscribe())
     })
   }
 
@@ -88,8 +88,8 @@ class PlayersNamesView {
     this.subscribers.push(subscriber);
   }
 
-  subscribeToPreviousView(subscriber) {
-    this.subscribersToPreviousView.push(subscriber)
+  subscribeToEscapeButtonEvent(subscriber) {
+    this.subscribersToEscapeButtonEvent.push(subscriber)
   }
 }
 

@@ -4,7 +4,8 @@ import PlayersView from './PlayersView'
 class PlayersController {
   constructor(playersNumber) {
     this.getPlayers(playersNumber)
-    this.subscribers = [] 
+    this.subscribersToEscapeButtonEvent = [] 
+    this.subscribersToRefreshBoardEvent = []
   }
   getPlayers(playersNumber) {
     this.players = []
@@ -17,16 +18,24 @@ class PlayersController {
   }
   renderPlayers() {
     this.playersView = new PlayersView('.application', this.players)
-    this.playersView.subscribeToPreviousView(() => {
-      this.func()
+    this.playersView.subscribeToEscapeButtonEvent(() => {
+      this.handleEscapeButtonEvent()
+    })
+    this.playersView.subscribeToRefreshBoardEvent(() => {
+      this.handleRefreshBoardEvent()
     })
   }
-  func() {
-    console.log('plcontrol', this.subscribers)
-    this.subscribers.forEach(subscribe => subscribe())
+  handleEscapeButtonEvent() {
+    this.subscribersToEscapeButtonEvent.forEach(subscribe => subscribe())
   }
-  subscribe(subscriber) {
-    this.subscribers.push(subscriber)
+  subscribeToEscapeButtonEvent(subscriber) {
+    this.subscribersToEscapeButtonEvent.push(subscriber)
+  }
+  handleRefreshBoardEvent() {
+    this.subscribersToRefreshBoardEvent.forEach(subscribe => subscribe())
+  }
+  subscribeToRefreshBoardEvent(subscriber) {
+    this.subscribersToRefreshBoardEvent.push(subscriber)
   }
 }
 
