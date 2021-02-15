@@ -148,7 +148,7 @@ html {
     display: flex;
     flex-flow: column;
     justify-content: space-evenly;
-    width: clamp(156px, 70%, 500px);
+    width: clamp(156px, 80%, 500px);
   }
   &__button {
     color: $brown;
@@ -340,8 +340,6 @@ html {
     }
   }
 }
-
-
 
 .player-panel {
   width: 100%;

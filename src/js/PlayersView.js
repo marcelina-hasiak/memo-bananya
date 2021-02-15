@@ -38,16 +38,24 @@ class PlayersView {
     const playerStatsMoves = document.createElement('p')
     playerStatsMoves.classList.add('player-panel__stats')
     playerStatsMoves.textContent = `MOVES: ${playerMoves}`
+    this.playerStatsMoves = playerStatsMoves
 
     const playerStatsRevealedPairs = document.createElement('p')
     playerStatsRevealedPairs.classList.add('player-panel__stats')
     playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`
+    this.playerStatsRevealedPairs = playerStatsRevealedPairs
 
     playerStatsWrapper.append(playerStatsActivePlayer)
     playerStatsWrapper.append(playerStatsMoves)
     playerStatsWrapper.append(playerStatsRevealedPairs)
 
     return playerStatsWrapper
+  }
+  updateMoves(playerMoves) {
+    this.playerStatsMoves.textContent = `MOVES: ${playerMoves}`
+  }
+  updatePoints(playerPoints) {
+    this.playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`
   }
 
   createEscapeButton() {

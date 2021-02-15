@@ -15,7 +15,7 @@ class GameController {
 
   getPlayersController(playersNumber) {
     const playersNumberParsed = this.parsePlayersNumber(playersNumber)
-    this.playerController = new PlayersController(playersNumberParsed)
+    this.playerController = new PlayersController(playersNumberParsed, this.board)
     this.playerController.subscribeToEscapeButtonEvent(() => {
       this.getLevelView(false)
     })

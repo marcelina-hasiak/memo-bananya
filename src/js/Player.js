@@ -10,11 +10,11 @@ class Player {
   }
 
   //setter
-  setMoves(moveCount) {
-    this.#moves = moveCount;
+  setMoves() {
+    this.#moves++;
   }
-  setPoints(pointsCount) {
-    this.#points = pointsCount;
+  setPoints() {
+    this.#points++;
   }
   setName(name) {
     this.#name = name;

@@ -3,18 +3,20 @@ import BoardView from './BoardView'
 class Board {
   constructor(board) {
     this.initialBoard = board 
+    this.subscribers = null
   }
+  
   renderBoard() {
     this.shuffleTiles()
     this.boardView = new BoardView('.application', this.shuffledBoard)
     this.boardView.subscribe(
       {
         checkIfPair: (tiles) => this.checkIfPair(tiles),
-        checkIsWinner: () => this.checkIsWinner()
+        animationRevealedTilesEnd: (isPair) => this.animationRevealedTilesEnd(isPair)
       }
     )
   }
-  
+
   shuffleTiles() {
     const shuffledBoard = [...this.initialBoard]
     for (let i = shuffledBoard.length - 1; i > 0; i--) {
@@ -46,11 +48,18 @@ class Board {
       this.shuffledBoard.splice(indexToDelete, 1)
     })
   }
+  animationRevealedTilesEnd(isPair) {
+    this.subscribers.updatePlayerStats(isPair)
+    this.checkIsWinner()
+  }
 
   checkIsWinner() {
     if (this.shuffledBoard.length === 0) {
       console.log('is winner')
     }
+  }
+  subscribe(subscribers) {
+    this.subscribers = subscribers
   }
 }
 

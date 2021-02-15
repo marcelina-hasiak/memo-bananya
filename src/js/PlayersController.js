@@ -2,10 +2,12 @@ import Player from './Player'
 import PlayersView from './PlayersView'
 
 class PlayersController {
-  constructor(playersNumber) {
+  constructor(playersNumber, board) {
     this.getPlayers(playersNumber)
+    this.subscribeToBoardEvents(board)
     this.subscribersToEscapeButtonEvent = [] 
     this.subscribersToRefreshBoardEvent = []
+    this.activePlayer = null
   }
   getPlayers(playersNumber) {
     this.players = []
@@ -16,6 +18,28 @@ class PlayersController {
   setPlayersNames(names) {
     this.players.forEach((player, index) => player.setName(names[index]))
   }
+  subscribeToBoardEvents(board) {
+    board.subscribe(
+      this.players.length < 2
+      ? { updatePlayerStats: (isPair) => this.updateSinglePlayerStats(isPair) }
+      : { updatePlayerStats: (isPair) => this.updateMultiPlayerStats(isPair) }
+    )
+  }
+
+  updateSinglePlayerStats(isPair) {
+    const firstPlayer = this.players[0]
+    firstPlayer.setMoves()
+    this.playersView.updateMoves(firstPlayer.playerMoves)
+    if (isPair) {
+      firstPlayer.setPoints()
+      this.playersView.updatePoints(firstPlayer.playerPoints)
+    }
+  }
+
+  updateMultiPlayerStats(isPair) {
+    
+  }
+  //włożyć subscriberów w obiekt
   renderPlayers() {
     this.playersView = new PlayersView('.application', this.players)
     this.playersView.subscribeToEscapeButtonEvent(() => {

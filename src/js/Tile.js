@@ -18,8 +18,8 @@ class Tile {
   get tileId() {
     return this.#id
   }
-  isPair(anotherTile) {
-    return this.dataPair === anotherTile.dataPair
+  isPair(comparedTile) {
+    return this.dataPair === comparedTile.dataPair
   }
 };
 

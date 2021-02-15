@@ -27,26 +27,24 @@ class BoardView {
   }
 
   addListenersToTiles(root) {
-    let revealedTile = []
+    let revealedTiles = []
     let isTimeoutFinished = true
 
     root.addEventListener('click', (e) => {
       if (isTimeoutFinished) {
         const tile = e.target.closest('.board__tile-container');
+        this.revealTile(tile, revealedTiles)
         
-        this.flipTile(tile, revealedTile)
-        
-        if (revealedTile.length === 2) {
+        if (revealedTiles.length === 2) {
           isTimeoutFinished = false
-          const isPair = this.subscribers.checkIfPair(revealedTile)
+          const isPair = this.subscribers.checkIfPair(revealedTiles)
           setTimeout(() => {
-            if (isPair) {
-              revealedTile.forEach(tile => this.fadeOutAnimation(tile)) 
-            }
-            revealedTile.forEach(tile => tile.classList.remove('is-flipped'))
-            revealedTile = []
+            isPair
+              ? revealedTiles.forEach(tile => this.fadeOutAnimation(tile)) 
+              : revealedTiles.forEach(tile => tile.classList.remove('is-flipped'))
+            revealedTiles = []
             isTimeoutFinished = true
-            this.subscribers.checkIsWinner()
+            this.subscribers.animationRevealedTilesEnd(isPair)
           }, 1000);
         }
       }
@@ -54,15 +52,15 @@ class BoardView {
     })
   }
 
-  flipTile(tile, revealedTile) {
-    const isTileFlipped = this.isTileFlipped(tile)
-    if (!isTileFlipped) {
+  revealTile(tile, revealedTiles) {
+    const isTileRevealed = this.isTileRevealed(tile)
+    if (!isTileRevealed) {
       tile.classList.add('is-flipped');
-      revealedTile.push(tile)
+      revealedTiles.push(tile)
     }
   }
   //utilities
-  isTileFlipped(tile) {
+  isTileRevealed(tile) {
     return tile ? tile.classList.contains('is-flipped') : false
   }
 
