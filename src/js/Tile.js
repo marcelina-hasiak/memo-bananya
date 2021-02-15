@@ -8,16 +8,18 @@ class Tile {
     this.#src = `./src/assets/img/tile-${index}.png`
     this.#data = index
     this.#id = uuidv4()
-    this.isHidden = true
   };
   get srcImage() {
     return this.#src
   }
-  get dataSet() {
+  get dataPair() {
     return this.#data
   }
   get tileId() {
     return this.#id
+  }
+  isPair(anotherTile) {
+    return this.dataPair === anotherTile.dataPair
   }
 };
 

@@ -21,7 +21,7 @@ class LevelView {
     const appBody = document.querySelector('.application__body--js')
     const footerImages = document.querySelector('.footer__images--js')
     const nodesToHide = [appHeader, appBody, footerImages]
-    nodesToHide.forEach(node => node.classList.remove('hide'))
+    nodesToHide.forEach(node => node.classList.remove('remove'))
 
     const board = document.querySelector('.board--js')
     const playerPanel = document.querySelector('.player-panel--js')

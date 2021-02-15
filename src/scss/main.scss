@@ -273,11 +273,11 @@ html {
   width: 100%;
 }
 
-.hide {
+.remove {
   display: none;
 }
 
-.rotated {
+.is-flipped {
   transform: rotateY( 180deg );
 }
 .board {
@@ -334,15 +334,14 @@ html {
       background-repeat: no-repeat;
       background-position: center;
       position: absolute;
+      //pointer-events: none;
       top:0;
       left:0;
     }
   }
 }
 
-.is-flipped {
-  transform: rotateY(180deg);
-}
+
 
 .player-panel {
   width: 100%;
