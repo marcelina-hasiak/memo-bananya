@@ -1,76 +1,80 @@
-import BoardFactory from './BoardFactory'
-import PlayersController from './PlayersController'
-import Views from './Views'
+import BoardFactory from "./BoardFactory";
+import PlayersController from "./PlayersController";
+import Views from "./Views";
 
 class GameController {
   constructor() {
-    this.views = new Views()
-    this.getLevelView()
+    this.views = new Views();
+    this.getLevelView();
   }
-  
+
   getCurrentBoard(level) {
-    const boardFactory = new BoardFactory()
-    this.board = boardFactory.getBoard(level)
+    const boardFactory = new BoardFactory();
+    this.board = boardFactory.getBoard(level);
   }
 
   getPlayersController(playersNumber) {
-    const playersNumberParsed = this.parsePlayersNumber(playersNumber)
-    this.playerController = new PlayersController(playersNumberParsed, this.board)
+    const playersNumberParsed = this.parsePlayersNumber(playersNumber);
+    this.playerController = new PlayersController(
+      playersNumberParsed,
+      this.board
+    );
     this.playerController.subscribeToEscapeButtonEvent(() => {
-      this.getLevelView(false)
-    })
+      this.getLevelView(false);
+    });
     this.playerController.subscribeToRefreshBoardEvent(() => {
-      this.board.renderBoard()
-    })
+      this.board.renderBoard();
+    });
   }
 
   setPlayersNames(names) {
-    this.playerController.setPlayersNames(names)
+    this.playerController.setPlayersNames(names);
   }
 
   getLevelView(firstGame = true) {
-    const levelView = this.views.getLevelView(firstGame)
+    const levelView = this.views.getLevelView(firstGame);
     levelView.subscribe((level) => {
-      this.getCurrentBoard(level)
-      this.getPlayersNumberView() 
-    })
+      this.getCurrentBoard(level);
+      this.getPlayersNumberView();
+    });
   }
 
   getPlayersNumberView() {
-    const playersNumberView = this.views.getPlayersNumberView()
-    playersNumberView.subscribe(playersNumber => {
-      this.getPlayersController(playersNumber)
-      this.getPlayersNameView(playersNumber) 
-    })
+    const playersNumberView = this.views.getPlayersNumberView();
+    playersNumberView.subscribe((playersNumber) => {
+      this.getPlayersController(playersNumber);
+      this.getPlayersNameView(playersNumber);
+    });
   }
 
   getPlayersNameView(playersNumber) {
-    const playersNumberParsed = this.parsePlayersNumber(playersNumber)
-    const playersNamesView = this.views.getPlayersNamesView(playersNumberParsed)
-    playersNamesView.subscribe(names => {
-      this.setPlayersNames(names)
-      this.getPlayersControllerView()
-      this.getBoardView()
-    })
+    const playersNumberParsed = this.parsePlayersNumber(playersNumber);
+    const playersNamesView = this.views.getPlayersNamesView(
+      playersNumberParsed
+    );
+    playersNamesView.subscribe((names) => {
+      this.setPlayersNames(names);
+      this.getPlayersControllerView();
+      this.getBoardView();
+    });
   }
 
   setPlayersNames(names) {
-    this.playerController.setPlayersNames(names)
+    this.playerController.setPlayersNames(names);
   }
 
   getBoardView() {
-    this.board.renderBoard()
+    this.board.renderBoard();
   }
   getPlayersControllerView() {
-    this.playerController.renderPlayers()
+    this.playerController.renderPlayers();
     //pass the handler
   }
 
   //utilities
   parsePlayersNumber(playersNumber) {
-    return parseInt(playersNumber[0])
+    return parseInt(playersNumber[0]);
   }
-
 }
 
-export default GameController
+export default GameController;

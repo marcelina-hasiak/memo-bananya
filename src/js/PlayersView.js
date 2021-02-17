@@ -1,61 +1,69 @@
 class PlayersView {
-  constructor(playerPanelContainer, playersData) {
-    const root = this.createRoot(playersData)
-    this.attachToContainer(playerPanelContainer, root)
+  constructor(playerPanelContainer) {
+    this.renderPlayerPanel(playerPanelContainer)
+    this.subscribers = null
     this.subscribersToRefreshBoardEvent = []
     this.subscribersToEscapeButtonEvent = []
   }
-  createRoot(playersData) {
+
+  renderPlayerPanel(playerPanelContainer) {
+    const root = this.createRoot()
+    this.createPlayerPanelController(root, )
+    this.attachToContainer(playerPanelContainer, root)
+  }
+
+  createRoot() {
     const root = document.createElement('section')
     root.classList.add('player-panel', 'player-panel--js')
-    this.createPlayerPanelController(root, playersData)
     return root
   }
 
-  createPlayerPanelController(root, playersData) {
+  createPlayerPanelController(root) {
     root.append(this.createEscapeButton())
-    for (let i = 0; i < playersData.length; i++) {
-      root.append(this.createPlayerStats(playersData[i]))
-      if (!(this.getViewportWidth() > 768)) {
-        break
-      }
-    }
+    root.append(this.createPlayerStats())
     root.append(this.createRefreshBoardButton())
+  }
+
+  createPlayerStats() {
+    const playerStatsWrapper = document.createElement('div')
+    playerStatsWrapper.classList.add('player-panel__stats-wrapper')
+
+    this.playerStatsActivePlayer = document.createElement('h2')
+    this.playerStatsActivePlayer.classList.add('player-panel__active-player')
+
+    this.playerStatsMoves = document.createElement('p')
+    this.playerStatsMoves.classList.add('player-panel__stats')
+
+    this.playerStatsRevealedPairs = document.createElement('p')
+    this.playerStatsRevealedPairs.classList.add('player-panel__stats')
+
+    playerStatsWrapper.append(this.playerStatsActivePlayer)
+    playerStatsWrapper.append(this.playerStatsMoves)
+    playerStatsWrapper.append(this.playerStatsRevealedPairs)
+
+    return playerStatsWrapper
+  }
+
+  updateStats(firstPlayerName, playerMoves, playerPoints) {
+    this.updateName(firstPlayerName)
+    this.updateMoves(playerMoves)
+    this.updatePoints(playerPoints)
+  }
+
+  updateMoves(playerMoves = 0) {
+    this.playerStatsMoves.textContent = `MOVES: ${playerMoves}`
+  }
+
+  updatePoints(playerPoints = 0) {
+    this.playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`
+  }
+
+  updateName(playerName) {
+    this.playerStatsActivePlayer.textContent = `${playerName} MOVES NOW`
   }
 
   attachToContainer(container, root) {
     document.querySelector(container).prepend(root)
-  }
-
-  createPlayerStats({playerName, playerMoves, playerPoints}) {
-    const playerStatsWrapper = document.createElement('div')
-    playerStatsWrapper.classList.add('player-panel__stats-wrapper')
-
-    const playerStatsActivePlayer = document.createElement('h2')
-    playerStatsActivePlayer.classList.add('player-panel__active-player')
-    playerStatsActivePlayer.textContent = `${playerName} MOVES NOW`
-
-    const playerStatsMoves = document.createElement('p')
-    playerStatsMoves.classList.add('player-panel__stats')
-    playerStatsMoves.textContent = `MOVES: ${playerMoves}`
-    this.playerStatsMoves = playerStatsMoves
-
-    const playerStatsRevealedPairs = document.createElement('p')
-    playerStatsRevealedPairs.classList.add('player-panel__stats')
-    playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`
-    this.playerStatsRevealedPairs = playerStatsRevealedPairs
-
-    playerStatsWrapper.append(playerStatsActivePlayer)
-    playerStatsWrapper.append(playerStatsMoves)
-    playerStatsWrapper.append(playerStatsRevealedPairs)
-
-    return playerStatsWrapper
-  }
-  updateMoves(playerMoves) {
-    this.playerStatsMoves.textContent = `MOVES: ${playerMoves}`
-  }
-  updatePoints(playerPoints) {
-    this.playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`
   }
 
   createEscapeButton() {
@@ -84,15 +92,16 @@ class PlayersView {
     btn.appendChild(btnImage)
     return btn
   }
+
   subscribeToRefreshBoardEvent(subscriber) {
     this.subscribersToRefreshBoardEvent.push(subscriber)
   }
+
   subscribeToEscapeButtonEvent(subscriber) {
     this.subscribersToEscapeButtonEvent.push(subscriber)
   }
-  //utilities
-  getViewportWidth() {
-    return window.innerWidth
+  subscribe(subscribers) {
+    this.subscribers = subscribers;
   }
 }
 export default PlayersView

@@ -1,33 +1,43 @@
 class Player {
-  #moves
-  #points
-  #name
-  
+  #moves;
+  #points;
+  #name;
+
   constructor() {
     this.#moves = 0;
     this.#points = 0;
-    this.#name = ''
+    this.#name = "";
   }
 
-  //setter
-  setMoves() {
-    this.#moves++;
+  set playerMoves(moves) {
+    this.#moves = moves;
   }
-  setPoints() {
-    this.#points++;
+
+  set playerPoints(points) {
+    this.#points = points;
   }
-  setName(name) {
+
+  set playerName(name) {
     this.#name = name;
   }
 
   get playerMoves() {
-    return this.#moves
+    return this.#moves;
   }
+
   get playerPoints() {
-    return this.#points
+    return this.#points;
   }
+
   get playerName() {
-    return this.#name
+    return this.#name;
+  }
+
+  addMoves() {
+    this.#moves++;
+  }
+  addPoints() {
+    this.#points++;
   }
 }
-export default Player
+export default Player;
