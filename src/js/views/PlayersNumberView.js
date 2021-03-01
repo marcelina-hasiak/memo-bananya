@@ -3,8 +3,7 @@ class PlayersNumberView {
 
   constructor(titleContainer) {
     this.render(titleContainer)
-    this.subscribers = []
-    this.subscribersToEscapeButtonEvents = []
+    this.subscribers = {}
   }
 
   render(titleContainer) {
@@ -24,26 +23,34 @@ class PlayersNumberView {
   createButtons(root) {
     root.append(this.createButton('NO', '1player'))
     root.append(this.createButton('YES', '2players', true))
-    if(root.querySelector('btn-back--js')) {
-      this.handleEscapeButton()
-    } else {
-      root.append(this.createEscapeButton())
-    }
 
+    root.querySelector('btn-back--js') 
+      ? this.onEscapeButtonEvent() 
+      : root.append(this.createEscapeButton())
   }
-  
+
   createButton(name, selector, isLastChild) {
     const btn = document.createElement('button');
     btn.setAttribute('data-playersNumber', selector);
     btn.textContent = name;
     btn.classList.add('settings__button', 'settings__button--js')
+
     if(isLastChild) {
       btn.classList.add('settings__button--last')
     }
+
     btn.addEventListener('click', () => {
-      this.subscribers.forEach(subscribe => subscribe(selector))
+      this.subscribers.getPlayersController(selector)
+      this.subscribers.getPlayersNameView(selector);
     })
     return btn
+  }
+
+  onEscapeButtonEvent() {
+    const btn = document.querySelector('.btn-back--js')
+    btn.addEventListener('click', () => {
+      this.subscribers.onEscapeButtonEvent()
+    })
   }
 
   createEscapeButton() {
@@ -56,7 +63,7 @@ class PlayersNumberView {
 
     btn.appendChild(btnImage)
     btn.addEventListener('click', () => {
-      this.subscribersToEscapeButtonEvents.forEach(subscribe => subscribe())
+      this.subscribers.onEscapeButtonEvent()
     })
 
     return btn
@@ -66,18 +73,8 @@ class PlayersNumberView {
     document.querySelector(container).textContent = PlayersNumberView.settingTitle
   }
 
-  subscribe(subscriber) {
-    this.subscribers.push(subscriber)
-  }
-  handleEscapeButton() {
-    const btn = document.querySelector('.btn-back--js')
-    btn.addEventListener('click', () => {
-      this.subscribersToEscapeButtonEvents.forEach(subscribe => subscribe())
-    })
-  }
-
-  subscribeToEscapeButtonEvent(subscriber) {
-    this.subscribersToEscapeButtonEvents.push(subscriber)
+  subscribe(subscribers) {
+    this.subscribers = {...this.subscribers, ...subscribers};
   }
 }
 

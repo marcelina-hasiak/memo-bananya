@@ -1,9 +1,17 @@
 class PlayersView {
   constructor(playerPanelContainer) {
+    this.prepareTheBoardField()
     this.renderPlayerPanel(playerPanelContainer)
     this.subscribers = null
     this.subscribersToRefreshBoardEvent = []
     this.subscribersToEscapeButtonEvent = []
+  }
+
+  prepareTheBoardField() {
+    const playerPanel = document.querySelector(".player-panel--js");
+    if (playerPanel) {
+      playerPanel.remove();
+    }
   }
 
   renderPlayerPanel(playerPanelContainer) {
@@ -69,9 +77,8 @@ class PlayersView {
   createEscapeButton() {
     const btn = document.createElement('button');
     btn.classList.add('btn-back')
-    btn.addEventListener('click', () => {
-      this.subscribersToEscapeButtonEvent.forEach(subscribe => subscribe())
-    })
+    btn.addEventListener('click', () => this.subscribers.onEscapeButtonEvent())
+
     const btnImage = document.createElement('img');
     btnImage.classList.add('full-size');
     btnImage.setAttribute('src', `./src/assets/img/btn-back.svg`);
@@ -82,9 +89,8 @@ class PlayersView {
   createRefreshBoardButton() {
     const btn = document.createElement('button');
     btn.classList.add('btn-refresh')
-    btn.addEventListener('click', () => {
-      this.subscribersToRefreshBoardEvent.forEach(subscribe => subscribe())
-    })
+    btn.addEventListener('click', () => this.subscribers.onRefreshBoardEvent())
+
     const btnImage = document.createElement('img');
     btnImage.classList.add('full-size');
     btnImage.setAttribute('src', `./src/assets/img/btn-refresh.svg`);

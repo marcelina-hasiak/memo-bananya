@@ -1,5 +1,5 @@
-import '../scss/main.scss';
-import GameController from './GameController'
+import "../scss/main.scss";
+import GameController from "./controllers/GameController";
 
 // uncomment the lines below to enable PWA
 // import {registerSW} from './pwa.js';
@@ -7,7 +7,6 @@ import GameController from './GameController'
 
 /* place your code below */
 
-const gameController = new GameController()
-
+new GameController();
 
 

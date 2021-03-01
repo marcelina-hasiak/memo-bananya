@@ -5,7 +5,7 @@ class BoardView {
     this.subscribers = null;
     this.temporaryRevealedTilesState = {
       revealedTiles: [],
-      isTilesAnimationFinished: true,
+      timeoutID: null,
     };
   }
 
@@ -60,28 +60,27 @@ class BoardView {
   }
 
   handleTileRevealing = (event) => {
-    if (this.temporaryRevealedTilesState.isTilesAnimationFinished) {
+    if (this.temporaryRevealedTilesState.timeoutID === null) {
       let { revealedTiles } = this.temporaryRevealedTilesState;
       this.revealTile(event.target, revealedTiles);
 
       if (revealedTiles.length === 2) {
-        this.temporaryRevealedTilesState.isTilesAnimationFinished = false;
-
-        const isPair = this.subscribers.checkIfPair(revealedTiles);
+        const isPair = this.subscribers.checkIsPair(revealedTiles);
         this.subscribers.updatePlayerStats(isPair);
 
-        setTimeout(() => {
+        this.temporaryRevealedTilesState.timeoutID = setTimeout(() => {
           if (isPair) {
             revealedTiles.forEach((tile) => this.fadeOutAnimation(tile));
+            this.subscribers.checkIsWinner();
           } else {
             revealedTiles.forEach((tile) =>
               tile.classList.remove("is-flipped")
             );
-
-            this.subscribers.onRevealedTilesAnimationEnd();
+            this.subscribers.changeToNextPlayer();
           }
           revealedTiles.length = 0;
-          this.temporaryRevealedTilesState.isTilesAnimationFinished = true;
+          clearInterval(this.temporaryRevealedTilesState.timeoutID)
+          this.temporaryRevealedTilesState.timeoutID = null;
         }, 1000);
       }
     }

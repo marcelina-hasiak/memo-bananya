@@ -1,11 +1,11 @@
-import Board from "./Board";
-import Tile from "./Tile";
+import Board from "../controllers/Board";
+import Tile from "../models/Tile";
 
 class BoardFactory {
   getBoard(level) {
     switch (level) {
       case "easy":
-        return new Board(this.createBoard(20));
+        return new Board(this.createBoard(10));
       case "medium":
         return new Board(this.createBoard(30));
       case "hard":

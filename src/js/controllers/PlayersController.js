@@ -1,13 +1,12 @@
-import Player from "./Player";
-import PlayersView from "./PlayersView";
+import Player from "../models/Player";
+import PlayersView from "../views/PlayersView";
 
 class PlayersController {
   constructor(playersNumber, board) {
     this.players = [];
     this.getPlayers(playersNumber);
     this.subscribeToBoardEvents(board);
-    this.subscribersToEscapeButtonEvent = [];
-    this.subscribersToRefreshBoardEvent = [];
+    this.subscribers = {}
   }
 
   getPlayers(playersNumber) {
@@ -19,6 +18,15 @@ class PlayersController {
 
   setPlayersNames(names) {
     this.players.forEach((player, index) => (player.playerName = names[index]));
+  }
+
+  renderPlayers() {
+    this.playersView = new PlayersView(".application");
+    this.playersView.updateStats(this.activePlayer.playerName);
+    this.playersView.subscribe({
+      onEscapeButtonEvent: () => this.onEscapeButtonEvent(),
+      onRefreshBoardEvent: () => this.onRefreshBoardEvent(),
+    });
   }
 
   subscribeToBoardEvents(board) {
@@ -39,10 +47,12 @@ class PlayersController {
 
   changeToNextPlayer() {
     if (this.players.length > 1) {
+      const activePlayerIndex = this.players.indexOf(this.activePlayer);
       this.activePlayer =
-        this.activePlayer === this.players[0]
-          ? this.players[1]
-          : this.players[0];
+        activePlayerIndex === this.players.length - 1
+          ? (this.activePlayer = this.players[0])
+          : (this.activePlayer = this.players[activePlayerIndex + 1]);
+
       this.playersView.updateStats(
         this.activePlayer.playerName,
         this.activePlayer.playerMoves,
@@ -50,18 +60,9 @@ class PlayersController {
       );
     }
   }
-  //włożyć subscriberów w obiekt
-  renderPlayers() {
-    this.playersView = new PlayersView(".application");
-    this.playersView.updateStats(this.activePlayer.playerName);
-    this.playersView.subscribe({
-      onEscapeButtonEvent: () => this.onEscapeButtonEvent(),
-      onRefreshBoardEvent: () => this.onRefreshBoardEvent(),
-    });
-  }
 
   onEscapeButtonEvent() {
-    this.subscribersToEscapeButtonEvent.forEach((subscribe) => subscribe());
+    this.subscribers.onEscapeButtonEvent();
   }
 
   onRefreshBoardEvent() {
@@ -70,16 +71,26 @@ class PlayersController {
       player.playerPoints = 0;
     });
     this.activePlayer = this.players[0];
-    this.playersView.updateStats(this.activePlayer.playerName);
-    this.subscribersToRefreshBoardEvent.forEach((subscribe) => subscribe());
+    this.renderPlayers();
+    this.subscribers.onRefreshBoardEvent();
   }
 
-  subscribeToEscapeButtonEvent(subscriber) {
-    this.subscribersToEscapeButtonEvent.push(subscriber);
+  getWinnerStats() {
+    const pointStats = [];
+    this.players.forEach((player) => pointStats.push(player.playerPoints));
+
+    const maxPoints = pointStats.reduce((prev, curr) => {
+      return Math.max(prev, curr);
+    });
+
+    const winners = this.players.filter(
+      (player) => player.playerPoints === maxPoints
+    );
+    return winners;
   }
 
-  subscribeToRefreshBoardEvent(subscriber) {
-    this.subscribersToRefreshBoardEvent.push(subscriber);
+  subscribe(subscribers) {
+    this.subscribers = { ...this.subscribers, ...subscribers };
   }
 }
 

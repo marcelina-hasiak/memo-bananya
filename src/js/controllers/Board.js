@@ -1,20 +1,21 @@
-import BoardView from "./BoardView";
+import BoardView from "../views/BoardView";
 
 class Board {
   constructor(board) {
     this.initialBoard = board;
     this.boardView = null;
     this.shuffledBoard = null;
-    this.subscribers = null;
+    this.subscribers = {};
   }
 
   renderBoard() {
     this.shuffleTiles();
     this.boardView = new BoardView(".application", this.shuffledBoard);
     this.boardView.subscribe({
-      checkIfPair: (tiles) => this.checkIfPair(tiles),
+      checkIsPair: (tiles) => this.checkIsPair(tiles),
       updatePlayerStats: (isPair) => this.updatePlayerStats(isPair),
-      onRevealedTilesAnimationEnd: () => this.onRevealedTilesAnimationEnd(),
+      changeToNextPlayer: () => this.changeToNextPlayer(),
+      checkIsWinner: () => this.checkIsWinner(),
     });
   }
 
@@ -29,7 +30,7 @@ class Board {
     this.shuffledBoard = shuffledBoard;
   }
 
-  checkIfPair([revealedTile1, revealedTile2]) {
+  checkIsPair([revealedTile1, revealedTile2]) {
     const tile1 = this.findTile(revealedTile1);
     const tile2 = this.findTile(revealedTile2);
     const isPair = tile1.isPair(tile2);
@@ -51,22 +52,24 @@ class Board {
       this.shuffledBoard.splice(indexToDelete, 1);
     });
   }
+
   updatePlayerStats(isPair) {
     this.subscribers.updatePlayerStats(isPair);
   }
 
-  onRevealedTilesAnimationEnd() {
+  changeToNextPlayer() {
     this.subscribers.changeToNextPlayer();
-    this.checkIsWinner();
   }
 
   checkIsWinner() {
     if (this.shuffledBoard.length === 0) {
-      console.log("is winner");
+      console.log("iswinenr");
+      this.subscribers.onGameOver();
     }
   }
+
   subscribe(subscribers) {
-    this.subscribers = subscribers;
+    this.subscribers = { ...this.subscribers, ...subscribers };
   }
 }
 
