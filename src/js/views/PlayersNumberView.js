@@ -35,9 +35,9 @@ class PlayersNumberView {
     btn.textContent = name;
     btn.classList.add('settings__button', 'settings__button--js')
 
-    if(isLastChild) {
-      btn.classList.add('settings__button--last')
-    }
+    // if(isLastChild) {
+    //   btn.classList.add('settings__button--last')
+    // }
 
     btn.addEventListener('click', () => {
       this.subscribers.getPlayersController(selector)

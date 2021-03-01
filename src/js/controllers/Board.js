@@ -9,6 +9,10 @@ class Board {
   }
 
   renderBoard() {
+    if (this.boardView && this.boardView.temporaryRevealedTilesState.timeoutID) {
+      clearInterval(this.boardView.temporaryRevealedTilesState.timeoutID)
+    }
+    
     this.shuffleTiles();
     this.boardView = new BoardView(".application", this.shuffledBoard);
     this.boardView.subscribe({
