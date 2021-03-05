@@ -18,6 +18,7 @@ html {
   @media (min-width: 1600px) {
     font-size: 150%;
   }
+  background: $white;
 }
 
 *,
@@ -28,30 +29,27 @@ html {
   box-sizing: inherit;
 }
 
-.application {
+body {
+  background: #C0ECFF;
   display: flex;
-  flex-flow: column;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  position: relative;
-  min-height: 100vh;
+  border: 10px solid #FFFFFF;
+  border-radius: 2rem;
+  border: 10px solid $white;
   background: $light-blue;
   background-image: url('../assets/img/right-paws-small.svg');
   background-repeat: no-repeat;
   background-position: right top;
   background-size: auto 90%;
-  border-radius: 2rem;
-  border: 10px solid $white;
-  font-family: 'Gochi Hand', cursive;
-  color: $white;
-  z-index: 0;
+  min-height: 100vh;
+  width: 100vw;
   overflow-x: hidden;
+  justify-content: space-between;
 
-	@media (min-width: 768px) {
-    border: 15px solid $white;
-    width: 98%;
-    margin: 0 auto;
-	}
+  @media (min-width: 768px) {
+    border: 20px solid $white;
+  }
   @media (min-width: 900px) {
     background-image: url('../assets/img/right-paws-large.svg');
     background-size: contain;
@@ -65,19 +63,32 @@ html {
     background-image: url('../assets/img/left-paws-small.svg');
     background-repeat: no-repeat;
     background-position: left top;
-    background-size: auto 90%;
-    height: 100%;
+    background-size: auto 95%;
+    height: 95vh;
     width: 100%;
     position: absolute;
-    z-index: -1;
+    top: 1rem;
+    left: .5rem;
     @media (min-width: 900px) {
       background-image: url('../assets/img/left-paws-large.svg');
-      background-size: contain;
     }
     @media (min-width: 1200px) {
       background-position: 5% top;
     }
   }
+}
+
+.application {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  flex:1;
+  font-family: 'Gochi Hand', cursive;
+  color: $white;
+  z-index: 0;
+  width: 100%;
+
   &__header {
     display: flex;
     align-items: center;
@@ -85,6 +96,7 @@ html {
     width: min(100%, 600px);
     margin: 2rem 0 1rem 0;;
   }
+
   &__body {
   }
 }
@@ -104,12 +116,13 @@ html {
 }
 
 .settings {
-    width: max(200px, 60%);
+    width: clamp(200px, 60%, 1000px);
     background: #FFDDE9;
     border-radius: 1rem;
     border: 6px solid #FFFFFF;
     padding: 3rem 1.5rem;
     box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
+    margin-bottom: 3rem;
     position: relative;
     display: flex;
     justify-content: center;
@@ -119,6 +132,9 @@ html {
     @media (min-width: 481px) {
       margin-bottom: 4rem;
     }
+      @media (min-width: 768px) {
+    border: 10px solid $white;
+  }
     @media (min-width: 1200px) {
       padding: 2rem;
     }
@@ -126,7 +142,7 @@ html {
     top: -2rem;
     right: max(-12%, -50px);
     position: absolute;
-    width: clamp(200px, 65%, 340px);
+    width: clamp(190px, 90%, 340px);
     pointer-events: none;
     line-height: 1.5;
   }
@@ -218,6 +234,9 @@ html {
   border-radius: 1rem 1rem 0 0;
   padding: 1rem 1rem .5rem 1rem;
   position: relative;
+  width: max-content;
+    display: flex;
+    justify-content: center;
 
   &__images {
     position: absolute;
@@ -370,6 +389,32 @@ html {
   }
   &__stats {
 
+  }
+}
+
+.game-over {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    flex: 1;
+  &__congrats {
+    margin: 3rem 0 2rem 0;
+    width: clamp(200px, 80%, 800px);
+  }
+  & img {
+    width: 100%;
+  }
+  
+  &__poster {
+    background: url('../assets/img/winner.png');
+    margin-bottom: 1rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: min(80%, 600px);
+    flex: 1;
+    min-height: 250px
   }
 }
 
