@@ -1,4 +1,4 @@
-![application-visualtisation](./src/assets.img/memo-bananya.png)
+![application-visualtisation](./src/assets/img/memo-bananya.png)
 
 # MEMO BANANYA
 Test your memory capacity in kawaii (cute) memo-bananya game! 3 levels available! Singleplayer and also Muliplayer(2players) available! Nyaaaa!
