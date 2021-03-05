@@ -72,6 +72,7 @@ class WinnerView {
     congratsHeader.classList.add("game-over__congrats");
 
     const congratsHeaderImage = document.createElement("img");
+    congratsHeaderImage.classList.add("full-size");
     congratsHeaderImage.setAttribute("src", "./src/assets/img/congrats.svg");
     congratsHeaderImage.setAttribute("alt", "Congrats.");
 

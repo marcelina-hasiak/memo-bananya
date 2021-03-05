@@ -31,18 +31,6 @@ class BoardView {
     this.attachToContainer(container, board);
   }
 
-  removeNodes() {
-    const board = document.querySelector(".board--js");
-    if(board){
-      board.remove();
-    }
-    const gameover = document.querySelector(".game-over")
-    if (gameover) {
-      gameover.remove()
-    }
-    
-  }
-
   createBoard() {
     const board = document.createElement("section");
     board.classList.add("board", "board--js");
