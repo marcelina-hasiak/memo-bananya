@@ -1,7 +1,7 @@
 @import "~normalize.css";
 @import "_variables";
 @import "modules/hello.scss";
-@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Hachi+Maru+Pop&family=Hi+Melody&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Hachi+Maru+Pop&family=Hi+Melody&display=swap");
 
 html {
   box-sizing: border-box;
@@ -46,7 +46,7 @@ body {
   border-radius: 2rem;
   border: 10px solid $white;
   background: $light-blue;
-  background-image: url('../assets/img/right-paws-small.svg');
+  background-image: url("../assets/img/right-paws-small.svg");
   background-repeat: no-repeat;
   background-size: auto 90%;
   background-position: right;
@@ -55,15 +55,15 @@ body {
     border: 20px solid $white;
   }
   @media (min-width: 900px) {
-    background-image: url('../assets/img/right-paws-large.svg');
+    background-image: url("../assets/img/right-paws-large.svg");
     background-size: contain;
   }
   @media (min-width: 1200px) {
     background-position: 95% top;
-	}
+  }
   &::before {
     content: "";
-    background-image: url('../assets/img/left-paws-small.svg');
+    background-image: url("../assets/img/left-paws-small.svg");
     background-repeat: no-repeat;
     background-position: left top;
     background-size: auto 95%;
@@ -71,7 +71,7 @@ body {
     width: 95%;
     position: absolute;
     @media (min-width: 900px) {
-      background-image: url('../assets/img/left-paws-large.svg');
+      background-image: url("../assets/img/left-paws-large.svg");
     }
     @media (min-width: 1200px) {
       background-position: 5% top;
@@ -84,8 +84,8 @@ body {
   flex-flow: column;
   justify-content: space-between;
   align-items: center;
-  flex:1;
-  font-family: 'Gochi Hand', cursive;
+  flex: 1;
+  font-family: "Gochi Hand", cursive;
   color: $white;
   z-index: 0;
   width: 100%;
@@ -171,12 +171,12 @@ body {
   }
   &__button {
     color: $brown;
-    font-family: 'Hachi Maru Pop', cursive;
+    font-family: "Hachi Maru Pop", cursive;
     font-size: 1.2rem;
     background: $white;
     border: none;
     border-radius: 10px;
-    padding: .8rem 1rem;
+    padding: 0.8rem 1rem;
     margin-bottom: 1.5rem;
     box-shadow: $shadow-small;
     text-shadow: $text-shadow-small;
@@ -205,10 +205,10 @@ body {
     margin-bottom: 1rem;
     text-align: center;
     background: $white;
-    padding: .8rem;
+    padding: 0.8rem;
     border-radius: 10px;
     align-items: center;
-    flex-grow: .2;
+    flex-grow: 0.2;
     font-size: 1.2rem;
     text-shadow: $text-shadow-small;
     font-size: 1rem;
@@ -223,20 +223,20 @@ body {
     text-align: center;
     color: inherit;
     font-size: 1rem;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 }
 
 .footer {
   background: $white;
   border-radius: 1rem 1rem 0 0;
-  padding: 1rem 1rem .5rem 1rem;
+  padding: 1rem 1rem 0.5rem 1rem;
   position: relative;
   width: max-content;
   display: flex;
   justify-content: center;
-  margin-bottom: -.6rem;
-  
+  margin-bottom: -0.6rem;
+
   &__images {
     position: absolute;
     bottom: 2rem;
@@ -253,14 +253,14 @@ body {
   &__author-container {
     color: $brown;
     font-size: 1.2rem;
-    font-family: 'Hi Melody', cursive;
+    font-family: "Hi Melody", cursive;
   }
   &__author-link {
     color: $brown;
     text-decoration: none;
     position: relative;
-    background: url('../assets/img/heart.svg');
-    padding: .5rem;
+    background: url("../assets/img/heart.svg");
+    padding: 0.5rem;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -270,7 +270,7 @@ body {
 .btn-go {
   background: none;
   border: none;
-  background: url('../assets/img/btn-go.svg');
+  background: url("../assets/img/btn-go.svg");
   color: $brown;
   padding: 1rem 2rem 2rem 2rem;
   background-position: center;
@@ -281,12 +281,13 @@ body {
   margin-bottom: -1.9rem;
 }
 
-.btn-back, .btn-refresh {
+.btn-back,
+.btn-refresh {
   background: none;
   border: none;
   width: clamp(40px, 12%, 60px);
   display: flex;
-} 
+}
 
 .full-size {
   width: 100%;
@@ -297,7 +298,7 @@ body {
 }
 
 .is-flipped {
-  transform: rotateY( 180deg );
+  transform: rotateY(180deg);
 }
 
 .board {
@@ -339,22 +340,22 @@ body {
     width: 100%;
     backface-visibility: hidden;
     &--front {
-      transform: rotateY( 180deg );
+      transform: rotateY(180deg);
       background-size: cover;
       background-repeat: no-repeat;
       background-position: top;
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
     }
     &--back {
-      background-image: url('../assets/img/paw.svg');
+      background-image: url("../assets/img/paw.svg");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
     }
   }
 }
@@ -365,36 +366,36 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
   &__stats-wrapper {
     background: $white;
     border-radius: 10px;
     box-shadow: $shadow-small;
     color: $brown;
-    margin: 0 .5rem;
+    margin: 0 0.5rem;
     padding: 1rem;
     text-align: center;
     text-shadow: $text-shadow-small;
   }
   &__active-player {
-    line-height: .8;
-    margin-bottom: .5rem;
+    line-height: 0.8;
+    margin-bottom: 0.5rem;
   }
   &__stats {
   }
 }
 
 .game-over {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
   &__congrats {
     margin: 3rem 0 2rem 0;
     width: clamp(200px, 80%, 800px);
   }
   &__poster {
-    background: url('../assets/img/winner.png');
+    background: url("../assets/img/winner.png");
     margin-bottom: 1rem;
     background-repeat: no-repeat;
     background-position: center;
@@ -404,5 +405,3 @@ body {
     min-height: 250px;
   }
 }
-
-

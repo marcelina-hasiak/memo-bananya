@@ -1,18 +1,21 @@
-![cover](https://cotenfrontend.pl/img/cover.png)
+![application-visualtisation](./src/assets.img/memo-bananya.png)
 
-# WTF Webpack Starter Kit 
+# MEMO BANANYA
+Test your memory capacity in kawaii (cute) memo-bananya game! 3 levels available! Singleplayer and also Muliplayer(2players) available! Nyaaaa!
 
-Simple toolkit for your static websites development.
+## Development state
+The projects was built in Vanilla JavaScript.
+I tried my best to separate buisness logic from rendering the view by creating 3 main controllers. 
+`GameController` - manage the largest part of the game. It commands rendering the settings views through View, responding to settings buttons generating the instance of Board Factory, which return the correct Board and PlayerController
+`Board` - manage the rendered board, shuffle tiles, inform PlayerController through GameController about the scores, react to emptying the board from tiles
+`PlayerController` - manage each player state (points, moves), rendering the stats and responding to action buttons
 
 ## How to use it?
-
-Click on `Use this template` button to generate a new repository based on this starter kit. After that clone it to your computer, go to the project directory in console and type `npm install`.
+- Clone the repository
+- Install all necessary packages by `npm install`
 
 ## Available scripts
-
 `npm run start` - runs development mode
-
 `npm run build` - runs build process for production
-
 `npm run publish` - runs build process and publish the page using `gh-pages` branch
 
