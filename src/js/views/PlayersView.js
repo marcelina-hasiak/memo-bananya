@@ -1,113 +1,131 @@
 class PlayersView {
-  constructor(playerPanelContainer) {
-    this.prepareTheBoardField()
-    this.renderPlayerPanel(playerPanelContainer)
-    this.subscribers = null
-    this.subscribersToRefreshBoardEvent = []
-    this.subscribersToEscapeButtonEvent = []
+  constructor(containerSelector, typeOfRender) {
+    this.render(containerSelector, typeOfRender);
+    this.subscribers = null;
   }
 
-  prepareTheBoardField() {
-    const playerPanel = document.querySelector(".player-panel--js");
-    if (playerPanel) {
-      playerPanel.remove();
+  render(containerSelector, typeOfRender) {
+    switch (typeOfRender) {
+      case "first render": {
+        const playerPanelContainer = this.createNodes();
+        this.attachToContainer(containerSelector, playerPanelContainer);
+        break;
+      }
+      case "render from endgame": {
+        this.deleteNodeBySelector([".player-panel--js"])
+        const playerPanelContainer = this.createNodes()
+        this.attachToContainer(containerSelector, playerPanelContainer);
+        break;
+      }
     }
   }
 
-  renderPlayerPanel(playerPanelContainer) {
-    const root = this.createRoot()
-    this.createPlayerPanelController(root, )
-    this.attachToContainer(playerPanelContainer, root)
+  createNodes() {
+    const playerPanelContainer = this.createPlayerPanelContainer();
+    this.createPlayerPanelController(playerPanelContainer);
+
+    return playerPanelContainer
   }
 
-  createRoot() {
-    const root = document.createElement('section')
-    root.classList.add('player-panel', 'player-panel--js')
-    return root
+  createPlayerPanelContainer() {
+    const playerPanelContainer = document.createElement("section");
+    playerPanelContainer.classList.add("player-panel", "player-panel--js");
+
+    return playerPanelContainer;
   }
 
-  createPlayerPanelController(root) {
-    root.append(this.createEscapeButton())
-    root.append(this.createPlayerStats())
-    root.append(this.createRefreshBoardButton())
+  createPlayerPanelController(playerPanelContainer) {
+    playerPanelContainer.append(this.createEscapeButton());
+    playerPanelContainer.append(this.createPlayerStats());
+    playerPanelContainer.append(this.createRefreshButton());
   }
 
   createPlayerStats() {
-    const playerStatsWrapper = document.createElement('div')
-    playerStatsWrapper.classList.add('player-panel__stats-wrapper')
+    const playerStatsContainer = document.createElement("div");
+    playerStatsContainer.classList.add("player-panel__stats-wrapper");
 
-    this.playerStatsActivePlayer = document.createElement('h2')
-    this.playerStatsActivePlayer.classList.add('player-panel__active-player')
+    this.playerStatsActivePlayer = document.createElement("h2");
+    this.playerStatsActivePlayer.classList.add("player-panel__active-player");
 
-    this.playerStatsMoves = document.createElement('p')
-    this.playerStatsMoves.classList.add('player-panel__stats')
+    this.playerStatsMoves = document.createElement("p");
+    this.playerStatsMoves.classList.add(
+      "player-panel__stats",
+      "player-panel__stats--points-js"
+    );
 
-    this.playerStatsRevealedPairs = document.createElement('p')
-    this.playerStatsRevealedPairs.classList.add('player-panel__stats')
+    this.playerStatsRevealedPairs = document.createElement("p");
+    this.playerStatsRevealedPairs.classList.add(
+      "player-panel__stats",
+      "player-panel__stats--moves-js"
+    );
 
-    playerStatsWrapper.append(this.playerStatsActivePlayer)
-    playerStatsWrapper.append(this.playerStatsMoves)
-    playerStatsWrapper.append(this.playerStatsRevealedPairs)
+    playerStatsContainer.append(
+      this.playerStatsActivePlayer,
+      this.playerStatsMoves,
+      this.playerStatsRevealedPairs
+    );
 
-    return playerStatsWrapper
-  }
-
-  updateStats(firstPlayerName, playerMoves, playerPoints) {
-    this.updateName(firstPlayerName)
-    this.updateMoves(playerMoves)
-    this.updatePoints(playerPoints)
-  }
-
-  updateMoves(playerMoves = 0) {
-    this.playerStatsMoves.textContent = `MOVES: ${playerMoves}`
-  }
-
-  updatePoints(playerPoints = 0) {
-    this.playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`
-  }
-
-  updateName(playerName) {
-    this.playerStatsActivePlayer.textContent = `${playerName} MOVES NOW`
-  }
-
-  attachToContainer(container, root) {
-    document.querySelector(container).prepend(root)
+    return playerStatsContainer;
   }
 
   createEscapeButton() {
-    const btn = document.createElement('button');
-    btn.classList.add('btn-back')
-    btn.addEventListener('click', () => this.subscribers.onEscapeButtonEvent())
+    const btn = document.createElement("button");
+    btn.classList.add("btn-back", "btn-back--js");
+    btn.addEventListener("click", () => this.subscribers.onEscapeButtonEvent());
 
-    const btnImage = document.createElement('img');
-    btnImage.classList.add('full-size');
-    btnImage.setAttribute('src', `./src/assets/img/btn-back.svg`);
+    const btnImage = document.createElement("img");
+    btnImage.classList.add("full-size");
+    btnImage.setAttribute("src", `./src/assets/img/btn-back.svg`);
 
-    btn.appendChild(btnImage)
-    return btn
-  }
-  createRefreshBoardButton() {
-    const btn = document.createElement('button');
-    btn.classList.add('btn-refresh')
-    btn.addEventListener('click', () => this.subscribers.onRefreshBoardEvent())
+    btn.appendChild(btnImage);
 
-    const btnImage = document.createElement('img');
-    btnImage.classList.add('full-size');
-    btnImage.setAttribute('src', `./src/assets/img/btn-refresh.svg`);
-
-    btn.appendChild(btnImage)
-    return btn
+    return btn;
   }
 
-  subscribeToRefreshBoardEvent(subscriber) {
-    this.subscribersToRefreshBoardEvent.push(subscriber)
+  createRefreshButton() {
+    const btn = document.createElement("button");
+    btn.classList.add("btn-refresh", "btn-refresh--js");
+    btn.addEventListener("click", () => this.subscribers.onRefreshButtonEvent());
+
+    const btnImage = document.createElement("img");
+    btnImage.classList.add("full-size");
+    btnImage.setAttribute("src", `./src/assets/img/btn-refresh.svg`);
+
+    btn.appendChild(btnImage);
+
+    return btn;
   }
 
-  subscribeToEscapeButtonEvent(subscriber) {
-    this.subscribersToEscapeButtonEvent.push(subscriber)
+  deleteNodeBySelector(selectors) {
+    for (let i = 0; i < selectors.length; i++) {
+      document.querySelector(selectors[i]).remove();
+    }
   }
+
+  updateStats(firstPlayerName, playerMoves, playerPoints) {
+    this.updateName(firstPlayerName);
+    this.updateMoves(playerMoves);
+    this.updatePoints(playerPoints);
+  }
+
+  updateMoves(playerMoves = 0) {
+    this.playerStatsMoves.textContent = `MOVES: ${playerMoves}`;
+  }
+
+  updatePoints(playerPoints = 0) {
+    this.playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`;
+  }
+
+  updateName(playerName) {
+    this.playerStatsActivePlayer.textContent = `${playerName} MOVES NOW`;
+  }
+
+  attachToContainer(containerSelector, playerPanelContainer) {
+    document.querySelector(containerSelector).append(playerPanelContainer);
+  }
+
   subscribe(subscribers) {
     this.subscribers = subscribers;
   }
 }
-export default PlayersView
+export default PlayersView;

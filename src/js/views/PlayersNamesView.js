@@ -2,42 +2,35 @@ class PlayersNamesView {
   static settingTitle = "GIMMIE YOUR NAME!";
   static settingTitleMultiplayer = "GIMMIE YOUR NAMES!";
 
-  constructor(titleContainer, playersNumber) {
-    this.render(titleContainer, playersNumber);
+  constructor(containerSelector, playersNumber) {
+    this.render(containerSelector, playersNumber);
     this.subscribers = {};
   }
 
-  render(titleContainer, playersNumber) {
-    const root = this.getRoot();
-    this.createForm(root, playersNumber);
-    this.onEscapeButtonEvent();
-    this.changeTitle(titleContainer, playersNumber);
+  render(containerSelector, playersNumber) {
+    const settingsBody = document.querySelector(containerSelector);
+
+    this.deleteNodeChildrenExeptLastOne(settingsBody);
+    this.createForm(settingsBody, playersNumber);
+    const escapeButton = settingsBody.querySelector(".btn-back--js");
+    this.replaceEventListeners(escapeButton);
+    this.changeTitle(playersNumber);
   }
 
-  getRoot() {
-    const root = document.querySelector(".settings__body--js");
-    for (let i = root.children.length; i > 0; i--) {
-      if (i === root.children.length) {
-        continue;
-      }
-      root.children[i - 1].remove();
-    }
-    return root;
-  }
-
-  createForm(root, playersNumber) {
+  createForm(settingsBody, playersNumber) {
     const form = document.createElement("form");
     form.classList.add("settings-form");
 
     for (let i = 0; i < playersNumber; i++) {
       form.appendChild(this.createInput(`PLAYER ${i + 1} NAME`));
     }
+
     form.append(this.createFormButton());
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const inputsValues = Array.from(
-        form.querySelectorAll(".settings-form__input")
+        form.querySelectorAll(".settings-form__input--js")
       ).map((inputs, index) => {
         if (inputs.value === "") {
           return `Player ${index + 1}`;
@@ -49,7 +42,8 @@ class PlayersNamesView {
       this.subscribers.getPlayersControllerView();
       this.subscribers.getBoardView();
     });
-    root.prepend(form);
+
+    settingsBody.prepend(form);
   }
 
   createInput(name) {
@@ -61,7 +55,8 @@ class PlayersNamesView {
 
     const input = document.createElement("input");
     input.setAttribute("type", "text");
-    input.classList.add("settings-form__input");
+    input.setAttribute("maxlength", "8");
+    input.classList.add("settings-form__input", "settings-form__input--js");
 
     label.appendChild(input);
     p.appendChild(label);
@@ -73,22 +68,45 @@ class PlayersNamesView {
     const btn = document.createElement("button");
     btn.textContent = "PLAY!";
     btn.classList.add("btn-go");
+
     return btn;
   }
 
-  onEscapeButtonEvent() {
-    const btn = document.querySelector(".btn-back--js");
-    btn.addEventListener("click", () => {
+  replaceEventListeners(escapeButton) {
+    const updatedEscapeButton = escapeButton.cloneNode(true);
+    escapeButton.replaceWith(updatedEscapeButton);
+    updatedEscapeButton.addEventListener("click", () => {
       this.subscribers.onEscapeButtonEvent();
     });
+
+    return updatedEscapeButton;
   }
 
-  changeTitle(container, playersNumber) {
-    const heading = document.querySelector(container);
-    heading.textContent =
-      playersNumber > 1
-        ? PlayersNamesView.settingTitleMultiplayer
-        : PlayersNamesView.settingTitle;
+  changeTitle(playersNumber) {
+    const heading = document.querySelector(".settings__title--js");
+    const headingImage = document.querySelector(".settings__bananya--js");
+    if (playersNumber > 1) {
+      heading.textContent = PlayersNamesView.settingTitleMultiplayer;
+      headingImage.setAttribute(
+        "alt",
+        "Bananya presenting heading in speech bubble. Gimmie your names!"
+      );
+    } else {
+      heading.textContent = PlayersNamesView.settingTitle;
+      headingImage.setAttribute(
+        "alt",
+        "Bananya presenting heading in speech bubble. Gimmie your name!"
+      );
+    }
+  }
+
+  deleteNodeChildrenExeptLastOne(node) {
+    for (let i = node.children.length; i > 0; i--) {
+      if (i === node.children.length) {
+        continue;
+      }
+      node.children[i - 1].remove();
+    }
   }
 
   subscribe(subscribers) {

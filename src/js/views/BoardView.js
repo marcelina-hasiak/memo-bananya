@@ -1,7 +1,6 @@
 class BoardView {
-  constructor(boardContainer, boardData) {
-    this.prepareTheBoardField();
-    this.renderBoard(boardContainer, boardData);
+  constructor(typeOfRender, containerSelector, boardData) {
+    this.render(typeOfRender, containerSelector, boardData);
     this.subscribers = null;
     this.temporaryRevealedTilesState = {
       revealedTiles: [],
@@ -9,39 +8,56 @@ class BoardView {
     };
   }
 
-  prepareTheBoardField() {
-    const appHeader = document.querySelector(".application__header--js");
-    const appBody = document.querySelector(".application__body--js");
-    const footerImages = document.querySelector(".footer__images--js");
-    const nodesToHide = [appHeader, appBody, footerImages];
-    nodesToHide.forEach((node) => node.classList.add("remove"));
+  render(typeOfRender, containerSelector, boardData) {
+    const container = document.querySelector(containerSelector);
 
+    switch (typeOfRender) {
+      case "first render": {
+        this.deleteNodeChildrenExeptLastOne(container)
+        this.hideFooterImage()
+        break;
+      }
+      case "render from board": {
+        this.deleteNodeBySelector([".board--js"]);
+        break;
+      }
+      case "render from endgame": {
+        this.deleteNodeBySelector([".game-over--js"]);
+        break;
+      }
+    }
+    const board = this.createBoard();
+    this.createTiles(board, boardData);
+    this.attachToContainer(container, board);
+  }
+
+  removeNodes() {
     const board = document.querySelector(".board--js");
-    if (board) {
+    if(board){
       board.remove();
     }
+    const gameover = document.querySelector(".game-over")
+    if (gameover) {
+      gameover.remove()
+    }
+    
   }
 
-  renderBoard(boardContainer, boardData) {
-    const root = this.createRoot();
-    this.createTiles(root, boardData);
-    this.attachToContainer(boardContainer, root);
+  createBoard() {
+    const board = document.createElement("section");
+    board.classList.add("board", "board--js");
+    board.addEventListener("click", this.handleTileRevealing);
+
+    return board;
   }
 
-  createRoot() {
-    const root = document.createElement("section");
-    root.classList.add("board", "board--js");
-    root.addEventListener("click", this.handleTileRevealing);
-    return root;
-  }
-
-  createTiles(root, boardData) {
+  createTiles(board, boardData) {
     boardData.forEach((tile) => {
-      root.append(this.createTile(tile));
+      board.append(this.createTile(tile));
     });
   }
 
-  createTile({ srcImage, tileId }) {
+  createTile({ tileId, srcImage }) {
     const tile = document.createElement("div");
     tile.classList.add("board__tile-container");
     tile.setAttribute("data-id", `${tileId}`);
@@ -53,10 +69,38 @@ class BoardView {
     tileFront.classList.add("board__tile", "board__tile--front");
     tileFront.style.backgroundImage = `url(${srcImage})`;
 
-    tile.append(tileBack);
-    tile.append(tileFront);
+    tile.append(tileBack, tileFront);
 
     return tile;
+  }
+
+  attachToContainer(container, board) {
+    container.prepend(board);
+  }
+
+  hideFooterImage() {
+    document.querySelector(".footer__images--js").classList.add("remove");
+  }
+
+  deleteNodeChildren(node) {
+    for (let i = node.children.length; i > 0; i--) {
+      node.children[i - 1].remove();
+    }
+  }
+
+  deleteNodeBySelector(selectors) {
+    for (let i = 0; i < selectors.length; i++) {
+      document.querySelector(selectors[i]).remove();
+    }
+  }
+
+  deleteNodeChildrenExeptLastOne(node) {
+    for (let i = node.children.length; i > 0; i--) {
+      if (i === node.children.length) {
+        continue;
+      }
+      node.children[i - 1].remove();
+    }
   }
 
   handleTileRevealing = (event) => {
@@ -67,24 +111,27 @@ class BoardView {
       if (revealedTiles.length === 2) {
         const isPair = this.subscribers.checkIsPair(revealedTiles);
         this.subscribers.updatePlayerStats(isPair);
-
-        this.temporaryRevealedTilesState.timeoutID = setTimeout(() => {
-          if (isPair) {
-            revealedTiles.forEach((tile) => this.fadeOutAnimation(tile));
-            this.subscribers.checkIsWinner();
-          } else {
-            revealedTiles.forEach((tile) =>
-              tile.classList.remove("is-flipped")
-            );
-            this.subscribers.changeToNextPlayer();
-          }
-          revealedTiles.length = 0;
-          clearInterval(this.temporaryRevealedTilesState.timeoutID)
-          this.temporaryRevealedTilesState.timeoutID = null;
-        }, 1000);
+        this.delayRevealing(isPair, revealedTiles, 1000)
       }
     }
   };
+
+  delayRevealing(isPair, revealedTiles, delay) {
+    this.temporaryRevealedTilesState.timeoutID = setTimeout(() => {
+      if (isPair) {
+        revealedTiles.forEach((tile) => this.fadeOutAnimation(tile));
+        this.subscribers.checkIsWinner();
+      } else {
+        revealedTiles.forEach((tile) =>
+          tile.classList.remove("is-flipped")
+        );
+        this.subscribers.changeToNextPlayer();
+      }
+      revealedTiles.length = 0;
+      clearInterval(this.temporaryRevealedTilesState.timeoutID)
+      this.temporaryRevealedTilesState.timeoutID = null;
+    }, delay);
+  }
 
   revealTile(target, revealedTiles) {
     const tile = target.closest(".board__tile-container");
@@ -98,9 +145,7 @@ class BoardView {
 
   canTileBeRevealed(tile) {
     const isTile = tile !== null;
-    const isTileAlreadyRevealed = isTile
-      ? tile.classList.contains("is-flipped")
-      : false;
+    const isTileAlreadyRevealed = tile && tile.classList.contains("is-flipped")
     return isTile && !isTileAlreadyRevealed;
   }
 
@@ -109,10 +154,6 @@ class BoardView {
     fadeOutAnimation.onfinish = () => {
       Array.from(tile.children).forEach((child) => child.remove());
     };
-  }
-
-  attachToContainer(container, root) {
-    document.querySelector(container).prepend(root);
   }
 
   subscribe(subscribers) {

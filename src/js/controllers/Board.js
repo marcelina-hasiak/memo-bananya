@@ -8,19 +8,24 @@ class Board {
     this.subscribers = {};
   }
 
-  renderBoard() {
-    if (this.boardView && this.boardView.temporaryRevealedTilesState.timeoutID) {
-      clearInterval(this.boardView.temporaryRevealedTilesState.timeoutID)
-    }
-    
+  renderBoard(typeOfRender) {
+    this.stopCoveringTilesAnimation()
+
     this.shuffleTiles();
-    this.boardView = new BoardView(".application", this.shuffledBoard);
+    
+    this.boardView = new BoardView(typeOfRender, ".application--js", this.shuffledBoard);
     this.boardView.subscribe({
       checkIsPair: (tiles) => this.checkIsPair(tiles),
       updatePlayerStats: (isPair) => this.updatePlayerStats(isPair),
       changeToNextPlayer: () => this.changeToNextPlayer(),
       checkIsWinner: () => this.checkIsWinner(),
     });
+  }
+
+  stopCoveringTilesAnimation() {
+    if (this.boardView && this.boardView.temporaryRevealedTilesState.timeoutID) {
+      clearInterval(this.boardView.temporaryRevealedTilesState.timeoutID)
+    }
   }
 
   shuffleTiles() {
@@ -67,7 +72,6 @@ class Board {
 
   checkIsWinner() {
     if (this.shuffledBoard.length === 0) {
-      console.log("iswinenr");
       this.subscribers.onGameOver();
     }
   }

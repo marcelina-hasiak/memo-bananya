@@ -8,11 +8,11 @@ class GameController {
     this.getLevelView();
   }
 
-  getLevelView(firstGame = true) {
-    const levelView = this.views.getLevelView(firstGame);
+  getLevelView(typeOfRender = "first render") {
+    const levelView = this.views.getLevelView(typeOfRender);
     levelView.subscribe({
       getCurrentBoard: (level) => this.getCurrentBoard(level),
-      getPlayersNumberView: () => this.getPlayersNumberView()
+      getPlayersNumberView: () => this.getPlayersNumberView(),
     });
   }
 
@@ -20,17 +20,23 @@ class GameController {
     const boardFactory = new BoardFactory();
     this.board = boardFactory.getBoard(level);
     this.board.subscribe({
-      onGameOver: () => this.onGameOver(),
+      onGameOver: () => this.getWinnerView(),
     });
   }
 
-  onGameOver() {
+  getWinnerView() {
     const winnerStats = this.playerController.getWinnerStats();
-    console.log(winnerStats);
+    const winnerView = this.views.getWinnerView(winnerStats);
+    winnerView.subscribe({
+      onRefreshButtonEvent: () => {
+        this.getBoardView("render from endgame");
+        this.getPlayersControllerView("render from endgame");
+      },
+    });
   }
 
-  getPlayersNumberView() {
-    const playersNumberView = this.views.getPlayersNumberView();
+  getPlayersNumberView(typeOfRender = "first render") {
+    const playersNumberView = this.views.getPlayersNumberView(typeOfRender);
     playersNumberView.subscribe({
       getPlayersController: (playersNumber) =>
         this.getPlayersController(playersNumber),
@@ -46,8 +52,10 @@ class GameController {
       this.board
     );
     this.playerController.subscribe({
-      onEscapeButtonEvent: () => this.getLevelView(false),
-      onRefreshBoardEvent: () => this.getBoardView(),
+      onEscapeButtonEvent: () => this.getLevelView("render from board"),
+      onRefreshButtonEvent: () => {
+        this.getBoardView("render from board");
+      },
     });
   }
 
@@ -58,8 +66,8 @@ class GameController {
     );
     playersNamesView.subscribe({
       setPlayersNames: (names) => this.setPlayersNames(names),
-      getPlayersControllerView: () => this.getPlayersControllerView(),
       getBoardView: () => this.getBoardView(),
+      getPlayersControllerView: () => this.getPlayersControllerView(),
     });
   }
 
@@ -67,12 +75,12 @@ class GameController {
     this.playerController.setPlayersNames(names);
   }
 
-  getPlayersControllerView() {
-    this.playerController.renderPlayers();
+  getPlayersControllerView(typeOfRender = "first render") {
+    this.playerController.renderPlayers(typeOfRender);
   }
 
-  getBoardView() {
-    this.board.renderBoard();
+  getBoardView(typeOfRender = "first render") {
+    this.board.renderBoard(typeOfRender);
   }
 
   parsePlayersNumber(playersNumber) {

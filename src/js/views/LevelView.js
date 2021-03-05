@@ -1,59 +1,114 @@
 class LevelView {
   static settingTitle = "CHOOSE YOUR LEVEL";
 
-  constructor(firstGame, settingsContainer, titleContainer) {
+  constructor(typeOfRender, containerSelector) {
+    this.render(typeOfRender, containerSelector);
     this.subscribers = {};
-    this.render(firstGame, settingsContainer, titleContainer);
   }
 
-  render(firstGame, settingsContainer, titleContainer) {
-    if (!firstGame) {
-      this.prepareTheLevelViewContainer();
-    }
-    const root = this.createRoot();
-    this.createButtons(root);
-    this.attachToContainer(settingsContainer, root);
-    this.changeTitle(titleContainer);
-  }
-
-  prepareTheLevelViewContainer() {
-    const appHeader = document.querySelector(".application__header--js");
-    const appBody = document.querySelector(".application__body--js");
-    const footerImages = document.querySelector(".footer__images--js");
-    const nodesToHide = [appHeader, appBody, footerImages];
-    nodesToHide.forEach((node) => node.classList.remove("remove"));
-
-    const board = document.querySelector(".board--js");
-    const playerPanel = document.querySelector(".player-panel--js");
-    const nodesToRemove = [board, playerPanel];
-    nodesToRemove.forEach((node) => node.remove());
-  }
-
-  createRoot() {
-    const root = document.querySelector(".settings__body--js");
-    if (root === null) {
-      const root = document.createElement("div");
-      root.classList.add("settings__body", "settings__body--js");
-      return root;
-    } else {
-      for (let i = root.children.length; i > 0; i--) {
-        root.children[i - 1].remove();
+  render(typeOfRender, containerSelector) {
+    switch (typeOfRender) {
+      case "first render": {
+        this.createNodes(containerSelector);
+        break;
       }
-      return root;
+      case "render from settings": {
+        const settingsBody = this.removeChildren(containerSelector);
+        this.createSettingsButtons(settingsBody);
+        break;
+      }
+      case "render from board": {
+        this.revealFooterImage();
+        this.deleteNodeBySelector([".board--js", ".player-panel--js"]);
+        this.createNodes(containerSelector);
+        break;
+      }
+      case "render from endgame": {
+        this.revealFooterImage();
+        this.deleteNodeBySelector([".player-panel--js", ".game-over"]);
+        this.createNodes(containerSelector);
+        break;
+      }
     }
+    this.changeSettingsHeader();
   }
 
-  createButtons(root) {
-    root.append(this.createButton("EASY", "easy"));
-    root.append(this.createButton("MEDIUM", "medium"));
-    root.append(this.createButton("HARD", "hard", true));
+  createNodes(containerSelector) {
+    const appHeader = this.createAppHeader();
+    const settingsHeader = this.createSettingsHeader();
+    const settingsBody = this.createSettingsBody();
+    this.createSettingsButtons(settingsBody);
+    const settingsContainer = this.createSettingsContainer(
+      settingsHeader,
+      settingsBody
+    );
+    this.attachToContainer(containerSelector, appHeader, settingsContainer);
   }
 
-  createButton(name, selector, isLastChild) {
+  createAppHeader() {
+    const appHeader = document.createElement("header");
+    appHeader.classList.add("application__header", "application__header--js");
+
+    const appHeading = document.createElement("h1");
+    appHeading.classList.add("application-heading");
+
+    const imageTitle = document.createElement("img");
+    imageTitle.classList.add("application-heading__logo");
+    imageTitle.setAttribute("src", "./src/assets/img/bananya-title.svg");
+    imageTitle.setAttribute("alt", "Bananya memo game.");
+
+    const imageSubtitle = document.createElement("img");
+    imageSubtitle.classList.add("application-heading__subtitle");
+    imageSubtitle.setAttribute("src", "./src/assets/img/bananya-subtitle.svg");
+    imageSubtitle.setAttribute("alt", "");
+
+    appHeading.append(imageTitle, imageSubtitle);
+    appHeader.append(appHeading);
+
+    return appHeader;
+  }
+
+  createSettingsHeader() {
+    const settingsHeader = document.createElement("div");
+    settingsHeader.classList.add("settings__header");
+
+    const image = document.createElement("img");
+    image.classList.add("settings__bananya", "settings__bananya--js");
+    image.setAttribute("src", "./src/assets/img/chatting-bananya.svg");
+
+    const heading = document.createElement("h2");
+    heading.classList.add("settings__title", "settings__title--js");
+
+    settingsHeader.append(image, heading);
+
+    return settingsHeader;
+  }
+
+  createSettingsBody() {
+    const settingsBody = document.createElement("div");
+    settingsBody.classList.add("settings__body", "settings__body--js");
+
+    return settingsBody;
+  }
+
+  removeChildren(containerSelector) {
+    const settingsBody = document.querySelector(containerSelector);
+    this.deleteNodeChildren(settingsBody);
+
+    return settingsBody;
+  }
+
+  createSettingsButtons(settingsBody) {
+    settingsBody.append(this.createSettingsButton("EASY", "easy"));
+    settingsBody.append(this.createSettingsButton("MEDIUM", "medium"));
+    settingsBody.append(this.createSettingsButton("HARD", "hard", true));
+  }
+
+  createSettingsButton(name, selector, isLastChild) {
     const btn = document.createElement("button");
+    btn.classList.add("settings__button", "settings__button--js");
     btn.setAttribute("data-level", selector);
     btn.textContent = name;
-    btn.classList.add("settings__button", "settings__button--js");
 
     if (isLastChild) {
       btn.classList.add("settings__button--last");
@@ -63,15 +118,51 @@ class LevelView {
       this.subscribers.getCurrentBoard(selector);
       this.subscribers.getPlayersNumberView();
     });
+
     return btn;
   }
 
-  attachToContainer(container, root) {
-    document.querySelector(container).append(root);
+  createSettingsContainer(settingsHeader, settingsBody) {
+    const settingsContainer = document.createElement("section");
+    settingsContainer.classList.add(
+      "application__body",
+      "application__body--js",
+      "settings"
+    );
+
+    settingsContainer.append(settingsHeader, settingsBody);
+
+    return settingsContainer;
   }
 
-  changeTitle(container) {
-    document.querySelector(container).textContent = LevelView.settingTitle;
+  attachToContainer(containerSelector, appHeader, settingsContainer) {
+    document.querySelector(containerSelector).append(appHeader, settingsContainer);
+  }
+
+  changeSettingsHeader() {
+    document.querySelector(".settings__title--js").textContent = LevelView.settingTitle;
+    document
+      .querySelector(".settings__bananya--js")
+      .setAttribute(
+        "alt",
+        "Bananya presenting heading in speech bubble. Choose your level."
+      );
+  }
+
+  revealFooterImage() {
+    document.querySelector(".footer__images--js").classList.remove("remove");
+  }
+
+  deleteNodeBySelector(selectors) {
+    for (let i = 0; i < selectors.length; i++) {
+      document.querySelector(selectors[i]).remove();
+    }
+  }
+
+  deleteNodeChildren(node) {
+    for (let i = node.children.length; i > 0; i--) {
+      node.children[i - 1].remove();
+    }
   }
 
   subscribe(subscribers) {

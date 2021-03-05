@@ -1,38 +1,57 @@
 import LevelView from "../views/LevelView";
 import PlayersNumberView from "../views/PlayersNumberView";
 import PlayersNamesView from "../views/PlayersNamesView";
+import WinnerView from "../views/WinnerView"
 
 class Views {
-  getLevelView(firstGame) {
+  getLevelView(typeOfRender) {
     this.levelView = new LevelView(
-      firstGame,
-      ".application__body--js",
-      ".settings__title--js"
+      typeOfRender,
+      ".application--js",
     );
     return this.levelView;
   }
-  getPlayersNumberView() {
-    this.playersNumber = new PlayersNumberView(".settings__title--js");
+
+  getPlayersNumberView(typeOfRender) {
+    this.playersNumber = new PlayersNumberView(
+      typeOfRender, 
+      ".settings__body--js",
+    );
     this.playersNumber.subscribe({
       onEscapeButtonEvent: () =>
         this.levelView.render(
-          true,
-          ".application__body--js",
-          ".settings__title--js"
+          'render from settings',
+          ".settings__body--js",
         ),
     });
     return this.playersNumber;
   }
+
   getPlayersNamesView(playersNumber) {
     this.playersNamesView = new PlayersNamesView(
-      ".settings__title--js",
+      ".settings__body--js",
       playersNumber
     );
     this.playersNamesView.subscribe({
       onEscapeButtonEvent: () =>
-        this.playersNumber.render(".settings__title--js"),
+        this.playersNumber.render(
+          "render from settings",
+          ".settings__body--js"
+        ),
     });
     return this.playersNamesView;
+  }
+
+  getWinnerView(playerStats) {
+    this.winnerView = new WinnerView(playerStats, ".application--js");
+    this.winnerView.subscribe({
+      onEscapeButtonEvent: () =>
+        this.levelView.render(
+          'render from endgame',
+          ".application--js"
+        ),
+    });
+    return this.winnerView;
   }
 }
 
