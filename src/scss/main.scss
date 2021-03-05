@@ -6,6 +6,7 @@
 html {
   box-sizing: border-box;
   font-size: 90%;
+  background: $white;
   @media (min-width: 481px) {
     font-size: 105%
   }
@@ -18,7 +19,6 @@ html {
   @media (min-width: 1600px) {
     font-size: 150%;
   }
-  background: $white;
 }
 
 *,
@@ -88,7 +88,6 @@ body {
   color: $white;
   z-index: 0;
   width: 100%;
-
   &__header {
     display: flex;
     align-items: center;
@@ -96,7 +95,6 @@ body {
     width: min(100%, 600px);
     margin: 2rem 0 1rem 0;;
   }
-
   &__body {
   }
 }
@@ -116,28 +114,28 @@ body {
 }
 
 .settings {
-    width: clamp(200px, 60%, 1000px);
-    background: #FFDDE9;
-    border-radius: 1rem;
-    border: 6px solid #FFFFFF;
-    padding: 3rem 1.5rem;
-    box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
-    margin-bottom: 3rem;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex:1;
-    margin-bottom: 3.5rem;
+  width: clamp(200px, 60%, 1000px);
+  background: #FFDDE9;
+  border-radius: 1rem;
+  border: 6px solid #FFFFFF;
+  padding: 3rem 1.5rem;
+  box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
+  margin-bottom: 3rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex:1;
+  margin-bottom: 3.5rem;
 
-    @media (min-width: 481px) {
-      margin-bottom: 4rem;
-    }
-      @media (min-width: 768px) {
-    border: 10px solid $white;
+  @media (min-width: 481px) {
+    margin-bottom: 4rem;
   }
-    @media (min-width: 1200px) {
-      padding: 2rem;
-    }
+    @media (min-width: 768px) {
+  border: 10px solid $white;
+  }
+  @media (min-width: 1200px) {
+    padding: 2rem;
+  }
   &__header {
     top: -2rem;
     right: max(-12%, -50px);
@@ -181,7 +179,6 @@ body {
     box-shadow: $shadow-small;
     text-shadow: $text-shadow-small;
     flex-grow: 0.2;
-
     &--last {
       margin-bottom: 0
     }
@@ -200,8 +197,6 @@ body {
   justify-content: space-evenly;
   color: $brown;
   flex: 1;
-  
-
   &__field {
     display: flex;
     margin-bottom: 1rem;
@@ -235,9 +230,8 @@ body {
   padding: 1rem 1rem .5rem 1rem;
   position: relative;
   width: max-content;
-    display: flex;
-    justify-content: center;
-
+  display: flex;
+  justify-content: center;
   &__images {
     position: absolute;
     bottom: 2rem;
@@ -247,14 +241,12 @@ body {
     align-items: baseline;
     justify-content: start;
   }
-  
   &__bananya {
     width: clamp(100px, 50%, 150px);
   }
   &__mouse {
     width: 40%;
   }
-
   &__author-container {
     color: $brown;
     font-size: 1.2rem;
@@ -271,6 +263,7 @@ body {
     background-position: center;
   }
 }
+
 .btn-go {
   background: none;
   border: none;
@@ -303,6 +296,7 @@ body {
 .is-flipped {
   transform: rotateY( 180deg );
 }
+
 .board {
   display: grid;
   grid-row-gap: 0.5rem;
@@ -317,7 +311,6 @@ body {
   @media (min-width: 481px) {
     grid-auto-rows: minmax(70px, 1fr);
   }
-
   &__tile-container {
     width: 100%;
     align-self: center;
@@ -325,7 +318,6 @@ body {
     max-height: 100px;
     max-width: 140px;
     justify-self: center;
-    //height: clamp(30px, 100%, 120px);
     position: relative;
     transition: transform 1s;
     transform-style: preserve-3d;
@@ -340,7 +332,6 @@ body {
     display: flex;
     justify-content: center;
     align-content: center;
-    // position: absolute;
     height: 100%;
     width: 100%;
     backface-visibility: hidden;
@@ -359,7 +350,6 @@ body {
       background-repeat: no-repeat;
       background-position: center;
       position: absolute;
-      //pointer-events: none;
       top:0;
       left:0;
     }
@@ -388,7 +378,6 @@ body {
     margin-bottom: .5rem;
   }
   &__stats {
-
   }
 }
 
@@ -396,7 +385,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     flex: 1;
   &__congrats {
     margin: 3rem 0 2rem 0;
@@ -405,7 +393,6 @@ body {
   & img {
     width: 100%;
   }
-  
   &__poster {
     background: url('../assets/img/winner.png');
     margin-bottom: 1rem;
