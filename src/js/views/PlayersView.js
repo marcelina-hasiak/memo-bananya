@@ -1,3 +1,6 @@
+import escapeButton from "../../assets/img/btn-back.svg";
+import refreshButton from "../../assets/img/btn-refresh.svg";
+
 class PlayersView {
   constructor(containerSelector, typeOfRender) {
     this.render(containerSelector, typeOfRender);
@@ -12,8 +15,8 @@ class PlayersView {
         break;
       }
       case "render from endgame": {
-        this.deleteNodeBySelector([".player-panel--js"])
-        const playerPanelContainer = this.createNodes()
+        this.deleteNodeBySelector([".player-panel--js"]);
+        const playerPanelContainer = this.createNodes();
         this.attachToContainer(containerSelector, playerPanelContainer);
         break;
       }
@@ -24,7 +27,7 @@ class PlayersView {
     const playerPanelContainer = this.createPlayerPanelContainer();
     this.createPlayerPanelController(playerPanelContainer);
 
-    return playerPanelContainer
+    return playerPanelContainer;
   }
 
   createPlayerPanelContainer() {
@@ -75,7 +78,7 @@ class PlayersView {
 
     const btnImage = document.createElement("img");
     btnImage.classList.add("full-size");
-    btnImage.setAttribute("src", `./src/assets/img/btn-back.svg`);
+    btnImage.setAttribute("src", escapeButton);
 
     btn.appendChild(btnImage);
 
@@ -85,11 +88,13 @@ class PlayersView {
   createRefreshButton() {
     const btn = document.createElement("button");
     btn.classList.add("btn-refresh", "btn-refresh--js");
-    btn.addEventListener("click", () => this.subscribers.onRefreshButtonEvent());
+    btn.addEventListener("click", () =>
+      this.subscribers.onRefreshButtonEvent()
+    );
 
     const btnImage = document.createElement("img");
     btnImage.classList.add("full-size");
-    btnImage.setAttribute("src", `./src/assets/img/btn-refresh.svg`);
+    btnImage.setAttribute("src", refreshButton);
 
     btn.appendChild(btnImage);
 

@@ -13,8 +13,8 @@ class BoardView {
 
     switch (typeOfRender) {
       case "first render": {
-        this.deleteNodeChildrenExeptLastOne(container)
-        this.hideFooterImage()
+        this.deleteNodeChildrenExeptLastOne(container);
+        this.hideFooterImage();
         break;
       }
       case "render from board": {
@@ -49,6 +49,7 @@ class BoardView {
     const tile = document.createElement("div");
     tile.classList.add("board__tile-container");
     tile.setAttribute("data-id", `${tileId}`);
+    tile.setAttribute("tabindex", `1`);
 
     const tileBack = document.createElement("div");
     tileBack.classList.add("board__tile", "board__tile--back");
@@ -99,7 +100,7 @@ class BoardView {
       if (revealedTiles.length === 2) {
         const isPair = this.subscribers.checkIsPair(revealedTiles);
         this.subscribers.updatePlayerStats(isPair);
-        this.delayRevealing(isPair, revealedTiles, 1000)
+        this.delayRevealing(isPair, revealedTiles, 1000);
       }
     }
   };
@@ -110,13 +111,11 @@ class BoardView {
         revealedTiles.forEach((tile) => this.fadeOutAnimation(tile));
         this.subscribers.checkIsWinner();
       } else {
-        revealedTiles.forEach((tile) =>
-          tile.classList.remove("is-flipped")
-        );
+        revealedTiles.forEach((tile) => tile.classList.remove("is-flipped"));
         this.subscribers.changeToNextPlayer();
       }
       revealedTiles.length = 0;
-      clearInterval(this.temporaryRevealedTilesState.timeoutID)
+      clearInterval(this.temporaryRevealedTilesState.timeoutID);
       this.temporaryRevealedTilesState.timeoutID = null;
     }, delay);
   }
@@ -133,7 +132,7 @@ class BoardView {
 
   canTileBeRevealed(tile) {
     const isTile = tile !== null;
-    const isTileAlreadyRevealed = tile && tile.classList.contains("is-flipped")
+    const isTileAlreadyRevealed = tile && tile.classList.contains("is-flipped");
     return isTile && !isTileAlreadyRevealed;
   }
 

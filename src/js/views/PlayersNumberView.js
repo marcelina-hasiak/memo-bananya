@@ -1,3 +1,5 @@
+import escapeButton from "../../assets/img/btn-back.svg";
+
 class PlayersNumberView {
   static settingTitle = "ANY FRIENDS WITH YOU?";
 
@@ -41,7 +43,7 @@ class PlayersNumberView {
     btn.classList.add("settings__button", "settings__button--js");
 
     if (isLastChild) {
-      btn.classList.add("settings__button--last");
+      btn.classList.add("settings__button--last-with-margin");
     }
 
     btn.addEventListener("click", () => {
@@ -58,7 +60,7 @@ class PlayersNumberView {
 
     const btnImage = document.createElement("img");
     btnImage.classList.add("full-size");
-    btnImage.setAttribute("src", "./src/assets/img/btn-back.svg");
+    btnImage.setAttribute("src", escapeButton);
     btnImage.setAttribute("alt", "Previous.");
 
     btn.append(btnImage);

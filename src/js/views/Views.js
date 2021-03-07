@@ -1,28 +1,22 @@
 import LevelView from "../views/LevelView";
 import PlayersNumberView from "../views/PlayersNumberView";
 import PlayersNamesView from "../views/PlayersNamesView";
-import WinnerView from "../views/WinnerView"
+import WinnerView from "../views/WinnerView";
 
 class Views {
   getLevelView(typeOfRender) {
-    this.levelView = new LevelView(
-      typeOfRender,
-      ".application--js",
-    );
+    this.levelView = new LevelView(typeOfRender, ".application--js");
     return this.levelView;
   }
 
   getPlayersNumberView(typeOfRender) {
     this.playersNumber = new PlayersNumberView(
-      typeOfRender, 
-      ".settings__body--js",
+      typeOfRender,
+      ".settings__body--js"
     );
     this.playersNumber.subscribe({
       onEscapeButtonEvent: () =>
-        this.levelView.render(
-          'render from settings',
-          ".settings__body--js",
-        ),
+        this.levelView.render("render from settings", ".settings__body--js"),
     });
     return this.playersNumber;
   }
@@ -46,10 +40,7 @@ class Views {
     this.winnerView = new WinnerView(playerStats, ".application--js");
     this.winnerView.subscribe({
       onEscapeButtonEvent: () =>
-        this.levelView.render(
-          'render from endgame',
-          ".application--js"
-        ),
+        this.levelView.render("render from endgame", ".application--js"),
     });
     return this.winnerView;
   }

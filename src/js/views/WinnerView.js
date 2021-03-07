@@ -1,21 +1,22 @@
+import congrats from "../../assets/img/congrats.svg";
+
 class WinnerView {
   constructor(winnerStats, containerSelector) {
-    this.render(winnerStats, containerSelector)
+    this.render(winnerStats, containerSelector);
     this.subscribers = {};
   }
 
   render(winnerStats, containerSelector) {
-    const escapeButton = document.querySelector('.btn-back--js') 
-    const refreshButton = document.querySelector('.btn-refresh--js') 
-    const container = document.querySelector(containerSelector)
+    const escapeButton = document.querySelector(".btn-back--js");
+    const refreshButton = document.querySelector(".btn-refresh--js");
+    const container = document.querySelector(containerSelector);
 
-    this.deleteNodeChildrenExeptLastOne(container)
-    this.replaceEventListeners(escapeButton, 'onEscapeButtonEvent');
-    this.replaceEventListeners(refreshButton, 'onRefreshButtonEvent');
+    this.deleteNodeChildrenExeptLastOne(container);
+    this.replaceEventListeners(escapeButton, "onEscapeButtonEvent");
+    this.replaceEventListeners(refreshButton, "onRefreshButtonEvent");
 
-    this.updateWinnerPanel(winnerStats)
-    this.createWinnerCongrats(container)
-    
+    this.updateWinnerPanel(winnerStats);
+    this.createWinnerCongrats(container);
   }
 
   deleteNodeChildrenExeptLastOne(node) {
@@ -36,32 +37,35 @@ class WinnerView {
   }
 
   updateWinnerPanel(winnerStats) {
-    const winner = document.querySelector('.player-panel__active-player')
-    winner.textContent = this.printWinner(winnerStats)
+    const winner = document.querySelector(".player-panel__active-player");
+    winner.textContent = this.printWinner(winnerStats);
 
-    const points = document.querySelector('.player-panel__stats--points-js')
-    points.textContent = this.printPoints(winnerStats)
+    const points = document.querySelector(".player-panel__stats--points-js");
+    points.textContent = this.printPoints(winnerStats);
 
-    const moves = document.querySelector('.player-panel__stats--moves-js')
-    moves.textContent = this.printPoints(winnerStats)
+    const moves = document.querySelector(".player-panel__stats--moves-js");
+    moves.textContent = this.printPoints(winnerStats);
   }
 
   printWinner(winnerStats) {
-    const isDraw = winnerStats.length > 1
-    const winer = winnerStats[0].playerName
-    const winners = winnerStats.reduce((prevPlayer, currentPlayer) => `${prevPlayer.playerName} and ${currentPlayer.playerName}`)
-    
-    return isDraw ? `${winners} WIN !!!` : `${winer} WINS !!!`
+    const isDraw = winnerStats.length > 1;
+    const winer = winnerStats[0].playerName;
+    const winners = winnerStats.reduce(
+      (prevPlayer, currentPlayer) =>
+        `${prevPlayer.playerName} and ${currentPlayer.playerName}`
+    );
+
+    return isDraw ? `${winners} WIN !!!` : `${winer} WINS !!!`;
   }
 
   printPoints(winnerStats) {
-    const pointsCount = winnerStats[0].playerPoints
-    return `WITH ${pointsCount} POINTS`
+    const pointsCount = winnerStats[0].playerPoints;
+    return `WITH ${pointsCount} POINTS`;
   }
 
   printMoves(winnerStats) {
-    const movesCount = winnerStats[0].playerMoves
-    return `IN ${movesCount} MOVES`
+    const movesCount = winnerStats[0].playerMoves;
+    return `IN ${movesCount} MOVES`;
   }
 
   createWinnerCongrats(container) {
@@ -73,16 +77,16 @@ class WinnerView {
 
     const congratsHeaderImage = document.createElement("img");
     congratsHeaderImage.classList.add("full-size");
-    congratsHeaderImage.setAttribute("src", "./src/assets/img/congrats.svg");
+    congratsHeaderImage.setAttribute("src", congrats);
     congratsHeaderImage.setAttribute("alt", "Congrats.");
 
     const congratsPoster = document.createElement("div");
     congratsPoster.classList.add("game-over__poster");
 
-    congratsHeader.append(congratsHeaderImage)
-    congratsContainer.append(congratsHeader, congratsPoster)
+    congratsHeader.append(congratsHeaderImage);
+    congratsContainer.append(congratsHeader, congratsPoster);
 
-    this.attachToContainer(container, congratsContainer)
+    this.attachToContainer(container, congratsContainer);
   }
 
   attachToContainer(container, congratsContainer) {
@@ -94,4 +98,4 @@ class WinnerView {
   }
 }
 
-export default WinnerView
+export default WinnerView;

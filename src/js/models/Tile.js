@@ -5,8 +5,8 @@ class Tile {
   #data;
   #id;
 
-  constructor(index) {
-    this.#src = `./src/assets/img/tile-${index}.png`;
+  constructor(index, source) {
+    this.#src = source;
     this.#data = index;
     this.#id = uuidv4();
   }

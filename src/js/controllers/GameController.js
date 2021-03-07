@@ -53,7 +53,8 @@ class GameController {
     );
     this.playerController.subscribe({
       onEscapeButtonEvent: () => this.getLevelView("render from board"),
-      onRefreshButtonEvent: () => {this.getBoardView("render from board")
+      onRefreshButtonEvent: () => {
+        this.getBoardView("render from board");
       },
     });
   }

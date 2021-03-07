@@ -19,3 +19,10 @@ I tried my best to separate buisness logic from rendering the view by creating 3
 `npm run build` - runs build process for production
 `npm run publish` - runs build process and publish the page using `gh-pages` branch
 
+## Author
+Marcelina Hasiak - Design and coding
+Webpack Starter Kit - [here](https://github.com/maciejkorsan/wtf-webpack-starter)
+
+## License
+For personal use only. Do not distribute.
+

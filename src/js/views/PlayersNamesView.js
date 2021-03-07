@@ -22,7 +22,7 @@ class PlayersNamesView {
     form.classList.add("settings-form");
 
     for (let i = 0; i < playersNumber; i++) {
-      form.appendChild(this.createInput(`PLAYER ${i + 1} NAME`));
+      form.appendChild(this.createInput(`PLAYER ${i + 1} NAME`, i === 0));
     }
 
     form.append(this.createFormButton());
@@ -46,9 +46,13 @@ class PlayersNamesView {
     settingsBody.prepend(form);
   }
 
-  createInput(name) {
+  createInput(name, isFirstChild) {
     const p = document.createElement("p");
     p.classList.add("settings-form__field");
+
+    if (isFirstChild) {
+      p.classList.add("settings-form__field--take-all-space");
+    }
 
     const label = document.createElement("label");
     label.textContent = name;

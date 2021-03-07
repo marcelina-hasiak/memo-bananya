@@ -1,4 +1,5 @@
 import BoardView from "../views/BoardView";
+import { shuffleArray } from "../auxiliaries.js";
 
 class Board {
   constructor(board) {
@@ -9,11 +10,14 @@ class Board {
   }
 
   renderBoard(typeOfRender) {
-    this.stopCoveringTilesAnimation()
+    this.stopCoveringTilesAnimation();
+    this.shuffledBoard = shuffleArray(this.initialBoard);
 
-    this.shuffleTiles();
-    
-    this.boardView = new BoardView(typeOfRender, ".application--js", this.shuffledBoard);
+    this.boardView = new BoardView(
+      typeOfRender,
+      ".application--js",
+      this.shuffledBoard
+    );
     this.boardView.subscribe({
       checkIsPair: (tiles) => this.checkIsPair(tiles),
       updatePlayerStats: (isPair) => this.updatePlayerStats(isPair),
@@ -23,20 +27,12 @@ class Board {
   }
 
   stopCoveringTilesAnimation() {
-    if (this.boardView && this.boardView.temporaryRevealedTilesState.timeoutID) {
-      clearInterval(this.boardView.temporaryRevealedTilesState.timeoutID)
+    if (
+      this.boardView &&
+      this.boardView.temporaryRevealedTilesState.timeoutID
+    ) {
+      clearInterval(this.boardView.temporaryRevealedTilesState.timeoutID);
     }
-  }
-
-  shuffleTiles() {
-    const shuffledBoard = [...this.initialBoard];
-    for (let i = shuffledBoard.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      let temp = shuffledBoard[i];
-      shuffledBoard[i] = shuffledBoard[j];
-      shuffledBoard[j] = temp;
-    }
-    this.shuffledBoard = shuffledBoard;
   }
 
   checkIsPair([revealedTile1, revealedTile2]) {

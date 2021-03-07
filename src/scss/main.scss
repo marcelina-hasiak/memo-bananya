@@ -5,10 +5,13 @@
 
 html {
   box-sizing: border-box;
-  font-size: 90%;
+  font-size: 100%;
   background: $white;
   @media (min-width: 481px) {
     font-size: 110%;
+  }
+  @media (min-width: 600px) {
+    font-size: 120%;
   }
   @media (min-width: 769px) {
     font-size: 140%;
@@ -82,7 +85,7 @@ body {
 .application {
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   flex: 1;
   font-family: "Gochi Hand", cursive;
@@ -97,7 +100,7 @@ body {
     margin: 2rem 0 1rem 0;
   }
   &__body {
-    width: clamp(200px, 60%, 1000px);
+    width: clamp(200px, 60%, 950px);
     flex: 1;
   }
 }
@@ -126,13 +129,15 @@ body {
   border: 6px solid $white;
   padding: 3rem 1.5rem;
   box-shadow: $shadow-small;
-  margin-bottom: 3.5rem;
+  margin-bottom: 4rem;
+  max-height: 420px;
 
   @media (min-width: 481px) {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
   }
   @media (min-width: 768px) {
     border: 10px solid $white;
+    max-height: 500px;
   }
   @media (min-width: 1200px) {
     padding: 1.6rem;
@@ -142,9 +147,10 @@ body {
     top: -2rem;
     right: max(-12%, -50px);
     position: absolute;
-    width: clamp(200px, 80%, 340px);
+    width: clamp(200px, 75%, 340px);
     pointer-events: none;
     line-height: 1.5;
+    z-index: 1;
   }
   &__title {
     display: flex;
@@ -181,8 +187,16 @@ body {
     box-shadow: $shadow-small;
     text-shadow: $text-shadow-small;
     flex-grow: 0.2;
-    &--last {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1)
+    }
+    &--last-without-margin {
       margin-bottom: 0;
+    }
+    &--last-with-margin {
+      margin-bottom: 3rem;
     }
   }
   &__button-back {
@@ -213,6 +227,9 @@ body {
     text-shadow: $text-shadow-small;
     font-size: 1rem;
     font-family: "Hachi Maru Pop", cursive;
+    &--take-all-space {
+      flex: 1;
+    }
   }
   &__input {
     width: 100%;
@@ -242,7 +259,7 @@ body {
     bottom: 2rem;
     left: 0rem;
     pointer-events: none;
-    width: clamp(160px, 100%, 340px);
+    width: clamp(160px, 95%, 340px);
   }
   &__bananya {
     width: clamp(100px, 50%, 150px);
@@ -279,6 +296,7 @@ body {
   font-size: 1.2rem;
   letter-spacing: 1px;
   margin-bottom: -1.9rem;
+  cursor: pointer;
 }
 
 .btn-back,
@@ -287,6 +305,7 @@ body {
   border: none;
   width: clamp(40px, 12%, 60px);
   display: flex;
+  cursor: pointer;
 }
 
 .full-size {
@@ -391,7 +410,7 @@ body {
   align-items: center;
   flex: 1;
   &__congrats {
-    margin: 3rem 0 2rem 0;
+    margin: 3rem 0 1rem 0;
     width: clamp(200px, 80%, 800px);
   }
   &__poster {

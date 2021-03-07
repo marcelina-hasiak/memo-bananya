@@ -1,3 +1,7 @@
+import chattingBananya from "../../assets/img/chatting-bananya.svg";
+import bananyaTitle from "../../assets/img/bananya-title.svg";
+import bananyaSubtitle from "../../assets/img/bananya-subtitle.svg";
+
 class LevelView {
   static settingTitle = "CHOOSE YOUR LEVEL";
 
@@ -54,12 +58,12 @@ class LevelView {
 
     const imageTitle = document.createElement("img");
     imageTitle.classList.add("application-heading__logo");
-    imageTitle.setAttribute("src", "./src/assets/img/bananya-title.svg");
+    imageTitle.setAttribute("src", bananyaTitle);
     imageTitle.setAttribute("alt", "Bananya memo game.");
 
     const imageSubtitle = document.createElement("img");
     imageSubtitle.classList.add("application-heading__subtitle");
-    imageSubtitle.setAttribute("src", "./src/assets/img/bananya-subtitle.svg");
+    imageSubtitle.setAttribute("src", bananyaSubtitle);
     imageSubtitle.setAttribute("alt", "");
 
     appHeading.append(imageTitle, imageSubtitle);
@@ -74,7 +78,7 @@ class LevelView {
 
     const image = document.createElement("img");
     image.classList.add("settings__bananya", "settings__bananya--js");
-    image.setAttribute("src", "./src/assets/img/chatting-bananya.svg");
+    image.setAttribute("src", chattingBananya);
 
     const heading = document.createElement("h2");
     heading.classList.add("settings__title", "settings__title--js");
@@ -111,7 +115,7 @@ class LevelView {
     btn.textContent = name;
 
     if (isLastChild) {
-      btn.classList.add("settings__button--last");
+      btn.classList.add("settings__button--last-without-margin");
     }
 
     btn.addEventListener("click", () => {
@@ -136,11 +140,14 @@ class LevelView {
   }
 
   attachToContainer(containerSelector, appHeader, settingsContainer) {
-    document.querySelector(containerSelector).append(appHeader, settingsContainer);
+    document
+      .querySelector(containerSelector)
+      .append(appHeader, settingsContainer);
   }
 
   changeSettingsHeader() {
-    document.querySelector(".settings__title--js").textContent = LevelView.settingTitle;
+    document.querySelector(".settings__title--js").textContent =
+      LevelView.settingTitle;
     document
       .querySelector(".settings__bananya--js")
       .setAttribute(
