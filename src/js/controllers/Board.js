@@ -2,7 +2,8 @@ import BoardView from "../views/BoardView";
 import { shuffleArray } from "../auxiliaries.js";
 
 class Board {
-  constructor(board) {
+  constructor(board, boardAttribute) {
+    this.boardAttribute = boardAttribute
     this.initialBoard = board;
     this.boardView = null;
     this.shuffledBoard = null;
@@ -12,11 +13,11 @@ class Board {
   renderBoard(typeOfRender) {
     this.stopCoveringTilesAnimation();
     this.shuffledBoard = shuffleArray(this.initialBoard);
-
     this.boardView = new BoardView(
       typeOfRender,
       ".application--js",
-      this.shuffledBoard
+      this.shuffledBoard,
+      this.boardAttribute
     );
     this.boardView.subscribe({
       checkIsPair: (tiles) => this.checkIsPair(tiles),

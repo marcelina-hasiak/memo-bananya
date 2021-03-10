@@ -32,11 +32,21 @@ class WinnerView {
     const updatedButton = button.cloneNode(true);
     button.replaceWith(updatedButton);
     updatedButton.addEventListener("click", () => {
-      this.subscribers[event]();
+      this.animateClickedButton(updatedButton)
+      updatedButton.onanimationend = () => {
+        this.subscribers[event]();
+      }
     });
   }
 
+  animateClickedButton(btn) {
+    btn.classList.add("btn-clicked")
+  }
+
   updateWinnerPanel(winnerStats) {
+    const playerPanelContainer = document.querySelector('.player-panel--js')
+    playerPanelContainer.classList.add('fade-in')
+
     const winner = document.querySelector(".player-panel__active-player");
     winner.textContent = this.printWinner(winnerStats);
 
@@ -44,7 +54,7 @@ class WinnerView {
     points.textContent = this.printPoints(winnerStats);
 
     const moves = document.querySelector(".player-panel__stats--moves-js");
-    moves.textContent = this.printPoints(winnerStats);
+    moves.textContent = this.printMoves(winnerStats);
   }
 
   printWinner(winnerStats) {
@@ -70,7 +80,7 @@ class WinnerView {
 
   createWinnerCongrats(container) {
     const congratsContainer = document.createElement("section");
-    congratsContainer.classList.add("game-over", "game-over--js");
+    congratsContainer.classList.add("game-over", "game-over--js", "animate-winner");
 
     const congratsHeader = document.createElement("h2");
     congratsHeader.classList.add("game-over__congrats");

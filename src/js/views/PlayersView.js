@@ -32,8 +32,8 @@ class PlayersView {
 
   createPlayerPanelContainer() {
     const playerPanelContainer = document.createElement("section");
-    playerPanelContainer.classList.add("player-panel", "player-panel--js");
-
+    playerPanelContainer.classList.add("player-panel", "player-panel--js", "fade-in");
+    playerPanelContainer.style.animationDelay = ".4s"
     return playerPanelContainer;
   }
 
@@ -73,8 +73,13 @@ class PlayersView {
 
   createEscapeButton() {
     const btn = document.createElement("button");
-    btn.classList.add("btn-back", "btn-back--js");
-    btn.addEventListener("click", () => this.subscribers.onEscapeButtonEvent());
+    btn.classList.add("btn-back", "btn-back--js", "player-panel__btn--escape");
+    btn.addEventListener("click", () => {
+      this.animateClickedButton(btn)
+      btn.onanimationend = () => {
+        this.subscribers.onEscapeButtonEvent()
+      }
+    });
 
     const btnImage = document.createElement("img");
     btnImage.classList.add("full-size");
@@ -87,11 +92,17 @@ class PlayersView {
 
   createRefreshButton() {
     const btn = document.createElement("button");
-    btn.classList.add("btn-refresh", "btn-refresh--js");
-    btn.addEventListener("click", () =>
-      this.subscribers.onRefreshButtonEvent()
-    );
-
+    btn.classList.add("btn-refresh", "btn-refresh--js", "player-panel__btn--refresh");
+    btn.addEventListener("click", () => {
+      this.removeAnimationClasses()
+      void btn.offsetWidth;
+      this.animateClickedButton(btn)
+      btn.onanimationend = () => {
+        const playerPanelContainer = document.querySelector('.player-panel--js')
+        playerPanelContainer.classList.add('fade-in')
+        this.subscribers.onRefreshButtonEvent()
+      }
+    });
     const btnImage = document.createElement("img");
     btnImage.classList.add("full-size");
     btnImage.setAttribute("src", refreshButton);
@@ -99,6 +110,18 @@ class PlayersView {
     btn.appendChild(btnImage);
 
     return btn;
+  }
+
+  removeAnimationClasses() {
+    const playerPanelContainer = document.querySelector('.player-panel--js')
+    playerPanelContainer.classList.remove('fade-in')
+    const refreshButton = document.querySelector(".btn-refresh--js"); 
+    refreshButton.classList.remove("btn-clicked")
+
+  }
+
+  animateClickedButton(btn) {
+    btn.classList.add("btn-clicked")
   }
 
   deleteNodeBySelector(selectors) {

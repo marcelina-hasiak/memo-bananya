@@ -1,6 +1,6 @@
 class BoardView {
-  constructor(typeOfRender, containerSelector, boardData) {
-    this.render(typeOfRender, containerSelector, boardData);
+  constructor(typeOfRender, containerSelector, boardData, boardAttribute) {
+    this.render(typeOfRender, containerSelector, boardData, boardAttribute);
     this.subscribers = null;
     this.temporaryRevealedTilesState = {
       revealedTiles: [],
@@ -8,9 +8,8 @@ class BoardView {
     };
   }
 
-  render(typeOfRender, containerSelector, boardData) {
+  render(typeOfRender, containerSelector, boardData, boardAttribute) {
     const container = document.querySelector(containerSelector);
-
     switch (typeOfRender) {
       case "first render": {
         this.deleteNodeChildrenExeptLastOne(container);
@@ -26,14 +25,16 @@ class BoardView {
         break;
       }
     }
-    const board = this.createBoard();
+    const board = this.createBoard(boardAttribute);
     this.createTiles(board, boardData);
     this.attachToContainer(container, board);
   }
 
-  createBoard() {
+  createBoard(boardAttribute) {
     const board = document.createElement("section");
-    board.classList.add("board", "board--js");
+    board.classList.add("board", "board--js", "fade-in");
+    board.style.animationDelay = "0s"
+    board.setAttribute('data-board', boardAttribute)
     board.addEventListener("click", this.handleTileRevealing);
 
     return board;
@@ -108,7 +109,7 @@ class BoardView {
   delayRevealing(isPair, revealedTiles, delay) {
     this.temporaryRevealedTilesState.timeoutID = setTimeout(() => {
       if (isPair) {
-        revealedTiles.forEach((tile) => this.fadeOutAnimation(tile));
+        revealedTiles.forEach((tile) => {tile.classList.add('no-outline'); this.fadeOutAnimation(tile); });
         this.subscribers.checkIsWinner();
       } else {
         revealedTiles.forEach((tile) => tile.classList.remove("is-flipped"));

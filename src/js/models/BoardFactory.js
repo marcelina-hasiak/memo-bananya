@@ -51,15 +51,15 @@ class BoardFactory {
   getBoard(level) {
     switch (level) {
       case "easy":
-        return new Board(this.createBoard(2));
+        return new Board(this.createBoardData(4), level);
       case "medium":
-        return new Board(this.createBoard(30));
+        return new Board(this.createBoardData(30), level);
       case "hard":
-        return new Board(this.createBoard(40));
+        return new Board(this.createBoardData(40), level);
     }
   }
 
-  createBoard(tilesNumber) {
+  createBoardData(tilesNumber) {
     const board = new Array(tilesNumber / 2).fill(null);
     const imagesSources = shuffleArray(imports);
     const finalBoard = board

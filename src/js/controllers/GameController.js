@@ -30,6 +30,7 @@ class GameController {
     winnerView.subscribe({
       onRefreshButtonEvent: () => {
         this.getBoardView("render from endgame");
+        this.playerController.restartScores()
         this.getPlayersControllerView("render from endgame");
       },
     });
@@ -53,9 +54,7 @@ class GameController {
     );
     this.playerController.subscribe({
       onEscapeButtonEvent: () => this.getLevelView("render from board"),
-      onRefreshButtonEvent: () => {
-        this.getBoardView("render from board");
-      },
+      onRefreshButtonEvent: () => this.getBoardView("render from board"),
     });
   }
 

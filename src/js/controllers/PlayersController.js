@@ -69,16 +69,21 @@ class PlayersController {
   }
 
   onRefreshButtonEvent() {
+    this.restartScores()
+    this.subscribers.onRefreshButtonEvent();
+  }
+
+  restartScores() {
     this.players.forEach((player) => {
       player.playerMoves = 0;
       player.playerPoints = 0;
     });
     this.activePlayer = this.players[0];
     this.playersView.updateStats(this.activePlayer.playerName);
-    this.subscribers.onRefreshButtonEvent();
   }
 
   getWinnerStats() {
+    this.playersView.removeAnimationClasses()
     const pointStats = [];
     this.players.forEach((player) => pointStats.push(player.playerPoints));
 
