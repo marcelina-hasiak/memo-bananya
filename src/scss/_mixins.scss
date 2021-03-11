@@ -1,0 +1,26 @@
+@mixin outline-blue {
+  outline: 2px dotted $dark-blue;
+  outline-offset: .2rem;
+}
+
+@mixin outline-pink-thin {
+  outline: 1px dotted $dark-pink;
+  outline-offset: .1rem;
+}
+
+@mixin outline-pink-thick {
+  outline: 2px dotted $dark-pink;
+  outline-offset: .2rem;
+}
+
+@mixin flex-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column-even {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+}

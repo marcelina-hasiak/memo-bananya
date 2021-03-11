@@ -1,0 +1,26 @@
+.btn-back,
+.btn-refresh {
+  display: flex;
+  width: clamp(40px, 12%, 55px);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.full-size {
+  width: 100%;
+}
+
+.remove {
+  display: none;
+}
+
+.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.no-outline {
+  &:focus {
+    outline: none;
+  }
+}
