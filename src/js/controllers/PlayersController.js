@@ -1,6 +1,8 @@
 import Player from "../models/Player";
 import PlayersView from "../views/PlayersView";
 
+import { removeAnimationClasses } from "../animations";
+
 class PlayersController {
   constructor(playersNumber, board) {
     this.players = this.getPlayers(playersNumber);
@@ -69,7 +71,7 @@ class PlayersController {
   }
 
   onRefreshButtonEvent() {
-    this.restartScores()
+    this.restartScores();
     this.subscribers.onRefreshButtonEvent();
   }
 
@@ -83,7 +85,7 @@ class PlayersController {
   }
 
   getWinnerStats() {
-    this.playersView.removeAnimationClasses()
+    removeAnimationClasses("remove from board");
     const pointStats = [];
     this.players.forEach((player) => pointStats.push(player.playerPoints));
 

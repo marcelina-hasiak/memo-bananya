@@ -51,7 +51,7 @@ class BoardFactory {
   getBoard(level) {
     switch (level) {
       case "easy":
-        return new Board(this.createBoardData(4), level);
+        return new Board(this.createBoardData(20), level);
       case "medium":
         return new Board(this.createBoardData(30), level);
       case "hard":

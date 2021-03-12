@@ -1,3 +1,10 @@
+import { fadeOutAnimation } from "../animations";
+
+import {
+  deleteNodeChildrenExeptLastOne,
+  deleteNodeBySelector,
+} from "../auxiliaries";
+
 class BoardView {
   constructor(typeOfRender, containerSelector, boardData, boardAttribute) {
     this.render(typeOfRender, containerSelector, boardData, boardAttribute);
@@ -12,16 +19,16 @@ class BoardView {
     const container = document.querySelector(containerSelector);
     switch (typeOfRender) {
       case "first render": {
-        this.deleteNodeChildrenExeptLastOne(container);
+        deleteNodeChildrenExeptLastOne(container);
         this.hideFooterImage();
         break;
       }
       case "render from board": {
-        this.deleteNodeBySelector([".board--js"]);
+        deleteNodeBySelector([".board--js"]);
         break;
       }
       case "render from endgame": {
-        this.deleteNodeBySelector([".game-over--js"]);
+        deleteNodeBySelector([".game-over--js"]);
         break;
       }
     }
@@ -33,8 +40,8 @@ class BoardView {
   createBoard(boardAttribute) {
     const board = document.createElement("section");
     board.classList.add("board", "board--js", "fade-in");
-    board.style.animationDelay = "0s"
-    board.setAttribute('data-board', boardAttribute)
+    board.style.animationDelay = "0s";
+    board.setAttribute("data-board", boardAttribute);
     board.addEventListener("click", this.handleTileRevealing);
 
     return board;
@@ -72,27 +79,6 @@ class BoardView {
     document.querySelector(".footer__images--js").classList.add("remove");
   }
 
-  deleteNodeChildren(node) {
-    for (let i = node.children.length; i > 0; i--) {
-      node.children[i - 1].remove();
-    }
-  }
-
-  deleteNodeBySelector(selectors) {
-    for (let i = 0; i < selectors.length; i++) {
-      document.querySelector(selectors[i]).remove();
-    }
-  }
-
-  deleteNodeChildrenExeptLastOne(node) {
-    for (let i = node.children.length; i > 0; i--) {
-      if (i === node.children.length) {
-        continue;
-      }
-      node.children[i - 1].remove();
-    }
-  }
-
   handleTileRevealing = (event) => {
     if (this.temporaryRevealedTilesState.timeoutID === null) {
       let { revealedTiles } = this.temporaryRevealedTilesState;
@@ -109,7 +95,13 @@ class BoardView {
   delayRevealing(isPair, revealedTiles, delay) {
     this.temporaryRevealedTilesState.timeoutID = setTimeout(() => {
       if (isPair) {
-        revealedTiles.forEach((tile) => {tile.classList.add('no-outline'); this.fadeOutAnimation(tile); });
+        revealedTiles.forEach((tile) => {
+          tile.classList.add("no-outline");
+          const animation = fadeOutAnimation(tile);
+          animation.onfinish = () => {
+            Array.from(tile.children).forEach((child) => child.remove());
+          };
+        });
         this.subscribers.checkIsWinner();
       } else {
         revealedTiles.forEach((tile) => tile.classList.remove("is-flipped"));
@@ -135,13 +127,6 @@ class BoardView {
     const isTile = tile !== null;
     const isTileAlreadyRevealed = tile && tile.classList.contains("is-flipped");
     return isTile && !isTileAlreadyRevealed;
-  }
-
-  fadeOutAnimation(tile) {
-    const fadeOutAnimation = tile.animate({ opacity: [1, 0] }, 500);
-    fadeOutAnimation.onfinish = () => {
-      Array.from(tile.children).forEach((child) => child.remove());
-    };
   }
 
   subscribe(subscribers) {

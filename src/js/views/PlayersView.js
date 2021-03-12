@@ -1,6 +1,13 @@
 import escapeButton from "../../assets/img/btn-back.svg";
 import refreshButton from "../../assets/img/btn-refresh.svg";
 
+import {
+  animateClickedButton,
+  removeAnimationClasses,
+  animatePlayerPanel,
+} from "../animations";
+import { deleteNodeBySelector } from "../auxiliaries";
+
 class PlayersView {
   constructor(containerSelector, typeOfRender) {
     this.render(containerSelector, typeOfRender);
@@ -15,7 +22,7 @@ class PlayersView {
         break;
       }
       case "render from endgame": {
-        this.deleteNodeBySelector([".player-panel--js"]);
+        deleteNodeBySelector([".player-panel--js"]);
         const playerPanelContainer = this.createNodes();
         this.attachToContainer(containerSelector, playerPanelContainer);
         break;
@@ -32,8 +39,12 @@ class PlayersView {
 
   createPlayerPanelContainer() {
     const playerPanelContainer = document.createElement("section");
-    playerPanelContainer.classList.add("player-panel", "player-panel--js", "fade-in");
-    playerPanelContainer.style.animationDelay = ".4s"
+    playerPanelContainer.classList.add(
+      "player-panel",
+      "player-panel--js",
+      "fade-in"
+    );
+    playerPanelContainer.style.animationDelay = ".4s";
     return playerPanelContainer;
   }
 
@@ -73,12 +84,12 @@ class PlayersView {
 
   createEscapeButton() {
     const btn = document.createElement("button");
-    btn.classList.add("btn-back", "btn-back--js", "player-panel__btn--escape");
+    btn.classList.add("btn-back", "btn-back--js", "player-panel__btn");
     btn.addEventListener("click", () => {
-      this.animateClickedButton(btn)
+      animateClickedButton(btn);
       btn.onanimationend = () => {
-        this.subscribers.onEscapeButtonEvent()
-      }
+        this.subscribers.onEscapeButtonEvent();
+      };
     });
 
     const btnImage = document.createElement("img");
@@ -92,16 +103,15 @@ class PlayersView {
 
   createRefreshButton() {
     const btn = document.createElement("button");
-    btn.classList.add("btn-refresh", "btn-refresh--js", "player-panel__btn--refresh");
+    btn.classList.add("btn-refresh", "btn-refresh--js", "player-panel__btn");
     btn.addEventListener("click", () => {
-      this.removeAnimationClasses()
+      removeAnimationClasses("remove from board");
       void btn.offsetWidth;
-      this.animateClickedButton(btn)
+      animateClickedButton(btn);
       btn.onanimationend = () => {
-        const playerPanelContainer = document.querySelector('.player-panel--js')
-        playerPanelContainer.classList.add('fade-in')
-        this.subscribers.onRefreshButtonEvent()
-      }
+        animatePlayerPanel();
+        this.subscribers.onRefreshButtonEvent();
+      };
     });
     const btnImage = document.createElement("img");
     btnImage.classList.add("full-size");
@@ -110,24 +120,6 @@ class PlayersView {
     btn.appendChild(btnImage);
 
     return btn;
-  }
-
-  removeAnimationClasses() {
-    const playerPanelContainer = document.querySelector('.player-panel--js')
-    playerPanelContainer.classList.remove('fade-in')
-    const refreshButton = document.querySelector(".btn-refresh--js"); 
-    refreshButton.classList.remove("btn-clicked")
-
-  }
-
-  animateClickedButton(btn) {
-    btn.classList.add("btn-clicked")
-  }
-
-  deleteNodeBySelector(selectors) {
-    for (let i = 0; i < selectors.length; i++) {
-      document.querySelector(selectors[i]).remove();
-    }
   }
 
   updateStats(firstPlayerName, playerMoves, playerPoints) {

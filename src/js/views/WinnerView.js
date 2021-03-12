@@ -1,4 +1,5 @@
 import congrats from "../../assets/img/congrats.svg";
+import { animateClickedButton } from "../animations";
 
 class WinnerView {
   constructor(winnerStats, containerSelector) {
@@ -14,9 +15,10 @@ class WinnerView {
     this.deleteNodeChildrenExeptLastOne(container);
     this.replaceEventListeners(escapeButton, "onEscapeButtonEvent");
     this.replaceEventListeners(refreshButton, "onRefreshButtonEvent");
-
     this.updateWinnerPanel(winnerStats);
-    this.createWinnerCongrats(container);
+    const congratsContainer = this.createWinnerCongrats();
+
+    this.attachToContainer(container, congratsContainer);
   }
 
   deleteNodeChildrenExeptLastOne(node) {
@@ -32,20 +34,16 @@ class WinnerView {
     const updatedButton = button.cloneNode(true);
     button.replaceWith(updatedButton);
     updatedButton.addEventListener("click", () => {
-      this.animateClickedButton(updatedButton)
+      animateClickedButton(updatedButton);
       updatedButton.onanimationend = () => {
         this.subscribers[event]();
-      }
+      };
     });
   }
 
-  animateClickedButton(btn) {
-    btn.classList.add("btn-clicked")
-  }
-
   updateWinnerPanel(winnerStats) {
-    const playerPanelContainer = document.querySelector('.player-panel--js')
-    playerPanelContainer.classList.add('fade-in')
+    const playerPanelContainer = document.querySelector(".player-panel--js");
+    playerPanelContainer.classList.add("fade-in");
 
     const winner = document.querySelector(".player-panel__active-player");
     winner.textContent = this.printWinner(winnerStats);
@@ -59,28 +57,34 @@ class WinnerView {
 
   printWinner(winnerStats) {
     const isDraw = winnerStats.length > 1;
-    const winer = winnerStats[0].playerName;
+    const winner = winnerStats[0].playerName;
     const winners = winnerStats.reduce(
       (prevPlayer, currentPlayer) =>
         `${prevPlayer.playerName} and ${currentPlayer.playerName}`
     );
 
-    return isDraw ? `${winners} WIN !!!` : `${winer} WINS !!!`;
+    return isDraw ? `${winners} WIN !!!` : `${winner} WINS !!!`;
   }
 
   printPoints(winnerStats) {
     const pointsCount = winnerStats[0].playerPoints;
+
     return `WITH ${pointsCount} POINTS`;
   }
 
   printMoves(winnerStats) {
     const movesCount = winnerStats[0].playerMoves;
+
     return `IN ${movesCount} MOVES`;
   }
 
-  createWinnerCongrats(container) {
+  createWinnerCongrats() {
     const congratsContainer = document.createElement("section");
-    congratsContainer.classList.add("game-over", "game-over--js", "animate-winner");
+    congratsContainer.classList.add(
+      "game-over",
+      "game-over--js",
+      "animate-winner"
+    );
 
     const congratsHeader = document.createElement("h2");
     congratsHeader.classList.add("game-over__congrats");
@@ -96,7 +100,7 @@ class WinnerView {
     congratsHeader.append(congratsHeaderImage);
     congratsContainer.append(congratsHeader, congratsPoster);
 
-    this.attachToContainer(container, congratsContainer);
+    return congratsContainer;
   }
 
   attachToContainer(container, congratsContainer) {

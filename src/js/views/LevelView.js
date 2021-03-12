@@ -3,6 +3,14 @@ import bananyaSubtitle from "../../assets/img/bananya-subtitle.svg";
 import chattingBananya from "../../assets/img/chatting-bananya.svg";
 import speechBubble from "../../assets/img/speech-bubble.svg";
 
+import {
+  animateClickedButton,
+  removeAnimationClasses,
+  animateHeadingTitle,
+  animateFooter,
+} from "../animations";
+import { deleteNodeBySelector, deleteNodeChildren } from "../auxiliaries";
+
 class LevelView {
   static settingTitle = "CHOOSE YOUR LEVEL";
 
@@ -14,7 +22,7 @@ class LevelView {
   render(typeOfRender, containerSelector) {
     switch (typeOfRender) {
       case "first render": {
-        this.createNodes(containerSelector);
+        this.createAppContent(containerSelector);
         break;
       }
       case "render from settings": {
@@ -24,25 +32,25 @@ class LevelView {
       }
       case "render from board": {
         this.revealFooterImage();
-        this.deleteNodeBySelector([".board--js", ".player-panel--js"]);
-        this.createNodes(containerSelector);
+        deleteNodeBySelector([".board--js", ".player-panel--js"]);
+        this.createAppContent(containerSelector);
         break;
       }
       case "render from endgame": {
         this.revealFooterImage();
-        this.deleteNodeBySelector([".player-panel--js", ".game-over"]);
-        this.createNodes(containerSelector);
+        deleteNodeBySelector([".player-panel--js", ".game-over"]);
+        this.createAppContent(containerSelector);
         break;
       }
     }
     this.changeSettingsTitle();
   }
 
-  createNodes(containerSelector) {
+  createAppContent(containerSelector) {
     const appHeader = this.createAppHeader();
     const settingsHeader = this.createSettingsHeader();
     const settingsBody = this.createSettingsBody();
-    this.createSettingsButtons(settingsBody);
+
     const settingsContainer = this.createSettingsContainer(
       settingsHeader,
       settingsBody
@@ -82,7 +90,11 @@ class LevelView {
     imageSpeechBubble.setAttribute("src", speechBubble);
 
     const imageBananya = document.createElement("img");
-    imageBananya.classList.add("settings__bananya", "settings__bananya--js", "animate-jumping-bananya");
+    imageBananya.classList.add(
+      "settings__bananya",
+      "settings__bananya--js",
+      "animate-jumping-bananya"
+    );
     imageBananya.setAttribute("src", chattingBananya);
 
     const heading = document.createElement("h2");
@@ -96,39 +108,44 @@ class LevelView {
   createSettingsBody() {
     const settingsBody = document.createElement("div");
     settingsBody.classList.add("settings__body", "settings__body--js");
+    this.createSettingsButtons(settingsBody);
 
     return settingsBody;
   }
 
   removeChildren(containerSelector) {
     const settingsBody = document.querySelector(containerSelector);
-    this.deleteNodeChildren(settingsBody);
+    deleteNodeChildren(settingsBody);
 
     return settingsBody;
   }
 
   createSettingsButtons(settingsBody) {
-    settingsBody.append(this.createSettingsButton("EASY", "easy", false, '0s'));
-    settingsBody.append(this.createSettingsButton("MEDIUM", "medium", false,'.2s'));
-    settingsBody.append(this.createSettingsButton("HARD", "hard", true, '.4s'));
+    settingsBody.append(this.createSettingsButton("EASY", "easy", false, "0s"));
+    settingsBody.append(
+      this.createSettingsButton("MEDIUM", "medium", false, ".2s")
+    );
+    settingsBody.append(this.createSettingsButton("HARD", "hard", true, ".4s"));
   }
 
   createSettingsButton(name, selector, isLastChild, delay) {
     const btn = document.createElement("button");
 
-    btn.classList.add("settings__button", "settings__button--js", "animate-settings-button");
-    btn.style.animationDelay = delay
+    btn.classList.add(
+      "settings__button",
+      "settings__button--js",
+      "animate-settings-button"
+    );
     if (isLastChild) {
       btn.classList.add("settings__button--last-without-margin");
     }
-
+    btn.style.animationDelay = delay;
     btn.setAttribute("data-level", selector);
-
     btn.textContent = name;
 
     btn.addEventListener("click", () => {
-      this.removeAnimationClasses()
-      this.animateClickedButton(btn)
+      removeAnimationClasses("remove from settings");
+      animateClickedButton(btn);
       btn.onanimationend = () => {
         this.subscribers.getCurrentBoard(selector);
         this.subscribers.getPlayersNumberView();
@@ -158,9 +175,9 @@ class LevelView {
   }
 
   changeSettingsTitle() {
-    const headingTitle = document.querySelector(".settings__title--js")
+    const headingTitle = document.querySelector(".settings__title--js");
     headingTitle.textContent = LevelView.settingTitle;
-    headingTitle.classList.add("animate-speech-bubble");
+    animateHeadingTitle(headingTitle);
 
     document
       .querySelector(".settings__bananya--js")
@@ -172,40 +189,11 @@ class LevelView {
 
   revealFooterImage() {
     document.querySelector(".footer__images--js").classList.remove("remove");
-    const madBananya = document.querySelector('.footer__bananya--js')
-    const mouse = document.querySelector('.footer__mouse--js')
-    madBananya.classList.add('animate-mad-bananya')
-    mouse.classList.add('animate-mouse')
-    madBananya.classList.remove('animate-chasing-bananya')
-    mouse.classList.remove('animate-escaping-mouse')
-  }
-
-  deleteNodeBySelector(selectors) {
-    for (let i = 0; i < selectors.length; i++) {
-      document.querySelector(selectors[i]).remove();
-    }
-  }
-
-  deleteNodeChildren(node) {
-    for (let i = node.children.length; i > 0; i--) {
-      node.children[i - 1].remove();
-    }
+    animateFooter("scare animation");
   }
 
   subscribe(subscribers) {
     this.subscribers = { ...this.subscribers, ...subscribers };
-  }
-
-  animateClickedButton(btn) {
-    btn.style.animationDelay ='0s'
-    btn.classList.add("btn-clicked")
-  }
-
-  removeAnimationClasses() {
-    const heading = document.querySelector(".settings__title--js");
-    heading.classList.remove('animate-speech-bubble');
-    const settingButtons = document.querySelectorAll('.settings__button--js')
-    settingButtons.forEach(button => button.classList.remove("animate-settings-button"))
   }
 }
 
