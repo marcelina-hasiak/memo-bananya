@@ -1,12 +1,12 @@
 {
-  "name": "WTF: PWA",
-  "short_name": "WTF: PWA",
-  "theme_color": "#2D2241",
-  "background_color": "#2D2241",
+  "name": "Memo Bananya",
+  "short_name": "Memo Bananya",
+  "theme_color": "##C0ECFF",
+  "background_color": "##C0ECFF",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/wtf-webpack-starter/",
-  "start_url": "/wtf-webpack-starter/",
+  "scope": "/memo-bananya/",
+  "start_url": "/memo-bananya/",
   "icons": [
     {
       "src": "pwa/manifest-icon-192.png",
