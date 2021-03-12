@@ -1,8 +1,8 @@
 {
   "name": "Memo Bananya",
   "short_name": "Memo Bananya",
-  "theme_color": "##C0ECFF",
-  "background_color": "##C0ECFF",
+  "theme_color": "#C0ECFF",
+  "background_color": "#C0ECFF",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/memo-bananya/",
