@@ -178,25 +178,6 @@
   animation: zoomIn 1s forwards;
 }
 
-.animate-cat {
-  animation: lightSpeedOutLeft 1.2s cubic-bezier(0.11, 0.74, 0.74, 1.02)
-    forwards 0.1s;
-}
-
-.animate-mouse {
-  animation: lightSpeedOutLeft 1.2s cubic-bezier(0.11, 0.74, 0.74, 1.02)
-    forwards;
-}
-
-@keyframes lightSpeedOutLeft {
-  0% {
-    transform: translate(0vw, 0) skewX(-10deg);
-  }
-  100% {
-    transform: translate(100vw, 0) skewX(-20deg);
-  }
-}
-
 @keyframes zoomIn {
   from {
     opacity: 0;
