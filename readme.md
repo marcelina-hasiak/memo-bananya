@@ -19,7 +19,9 @@ I tried my best to separate buisness logic from rendering the view by creating 3
 
 ## Available scripts
 `npm run start` - runs development mode
+
 `npm run build` - runs build process for production
+
 `npm run publish` - runs build process and publish the page using `gh-pages` branch
 
 ## Author
