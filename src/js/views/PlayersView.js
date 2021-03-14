@@ -133,7 +133,7 @@ class PlayersView {
   }
 
   updatePoints(playerPoints = 0) {
-    this.playerStatsRevealedPairs.textContent = `REVEALD PAIRS: ${playerPoints}`;
+    this.playerStatsRevealedPairs.textContent = `REVEALED PAIRS: ${playerPoints}`;
   }
 
   updateName(playerName) {
