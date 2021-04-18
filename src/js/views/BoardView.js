@@ -43,6 +43,7 @@ class BoardView {
     board.style.animationDelay = "0s";
     board.setAttribute("data-board", boardAttribute);
     board.addEventListener("click", this.handleTileRevealing);
+    board.addEventListener("keydown", this.handleTileRevealing);
 
     return board;
   }
